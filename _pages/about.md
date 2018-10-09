@@ -4,5 +4,3 @@ permalink: /about/
 header:
   image: "/images/snow.jpg"
 ---
-
-Hello
