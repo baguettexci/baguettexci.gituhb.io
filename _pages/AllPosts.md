@@ -1,6 +1,6 @@
 ---
 layout: archive
-permalink: /posts/
+permalink: /machine-learning/
 title: "Machine Learning Posts"
 author_profile: true
 header:
