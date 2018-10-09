@@ -3,6 +3,7 @@ title: Hello World
 date: 2018-10-01
 tags: [machine learning, data science, neural network]
 header:
+  image: ""
 excerpt: "Machine Learning, Data Science"
 ---
 
