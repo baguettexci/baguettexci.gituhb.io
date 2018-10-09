@@ -1,7 +1,7 @@
 ---
 title: "Posts by Tag"
 permalink: /tags/
-``permalink: /tags-archive/``
+`` permalink: /tags-archive/ ``
 layout: tags
 author_profile: true
 ---
