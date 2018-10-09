@@ -5,4 +5,4 @@ header:
   image: "/images/snow.jpg"
 ---
 
-Hello
+Hello!
