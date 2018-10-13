@@ -30,7 +30,7 @@ td {
   border-bottom: 1px solid mix(#000, $border-color, 25%);
 }
 
-tbody tr:nth-child(odd) {
+tbody tr:nth-child(even) {
   background: #eee;
 }
 
