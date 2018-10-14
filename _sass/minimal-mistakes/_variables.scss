@@ -127,7 +127,7 @@ $base0e: #c792ea !default;
 $base0f: #ff5370 !default;
 */
 
-/* solarized light syntax highlighting (base16) */
+/* solarized light syntax highlighting (base16) 
 $base00: #fafafa !default;
 $base01: #073642 !default;
 $base02: #586e75 !default;
@@ -137,13 +137,34 @@ $base05: #586e75 !default;
 $base06: #eee8d5 !default;
 $base07: #fdf6e3 !default;
 $base08: #ab4642 !default;
-$base09: #dc9656 !default;
-$base0a: #f7ca88 !default;
-$base0b: #a1b56c !default;
-$base0c: #86c1b9 !default;
-$base0d: #7cafc2 !default;
-$base0e: #ba8baf !default;
+$base09: #cb4b16 !default; =0
+$base0a: #!default; numpy
+$base0b: #a1b56c !default; data/air2000_test.csv
+$base0c: #86c1b9 !default; import
+$base0d: #7cafc2 !default; test_function:
+$base0e: #ba8baf !default; def/ return
 $base0f: #a16946 !default;
+*/
+
+
+/* solarized light syntax highlighting (base16) */
+$base00: #fafafa !default;
+$base01: #073642 !default;
+$base02: #586e75 !default;
+$base03: #657b83 !default;
+$base04: #839496 !default;
+$base05: #586e75 !default;
+$base06: #eee8d5 !default;
+$base07: #fdf6e3 !default;
+$base08: #dc322f !default;
+$base09: #cb4b16 !default;
+$base0a: #b58900 !default;
+$base0b: #859900 !default;
+$base0c: #2aa198 !default;
+$base0d: #268bd2 !default;
+$base0e: #6c71c4 !default;
+$base0f: #d33682 !default;
+
 
 
 
