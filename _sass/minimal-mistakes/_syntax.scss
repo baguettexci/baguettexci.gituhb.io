@@ -17,6 +17,8 @@ figure.highlight {
   pre.highlight {
     margin: 0;
     padding: 1em;
+    height: 100px;
+    overflow: auto;
   }
 }
 
@@ -54,8 +56,6 @@ figure.highlight {
 
 .highlight pre {
   width: 100%;
-  height: 100px;
-  overflow: auto;
 }
 
 .highlight .hll {
