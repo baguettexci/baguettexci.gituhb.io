@@ -17,7 +17,6 @@ figure.highlight {
   pre.highlight {
     margin: 0;
     padding: 1em;
-    overflow-y: auto;
   }
 }
 
@@ -55,6 +54,7 @@ figure.highlight {
 
 .highlight pre {
   width: 100%;
+  overflow-y: auto;
 }
 
 .highlight .hll {
