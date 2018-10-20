@@ -13,6 +13,8 @@ Each dataset sample consists of a 28x28 grayscale image, associated with a label
 
 The 10 classes are as follows:
 0=T-shirt/top, 1=Trouser, 2=Pullover, 3=Dress, 4=Coat, 5=Sandal, 6=Shirt, 7=Sneaker, 8=Bag, 9=Ankle boot
+
+Each image is 28 pixels in height and 28 pixels in width, for a total of 784 pixels in total. Each pixel has a single pixel-value associated with it, indicating the lightness or darkness of that pixel, with higher numbers meaning darker. This pixel-value is an integer between 0 and 255. 
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/fashionmnist.jpg" alt="">
 
 ## 1) Setup
@@ -22,7 +24,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import random
 ```
 ### Load & Viewing the Data
 ```python
@@ -31,6 +32,7 @@ fashion_train_df = pd.read_csv('fashion-mnist_train.csv',sep=',')
 fashion_test_df = pd.read_csv('fashion-mnist_test.csv', sep = ',')
 fashion_train_df.head()
 ```
+<div style="overflow-x:auto;">
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -182,6 +184,91 @@ fashion_train_df.head()
   </tbody>
 </table>
 <p>5 rows × 785 columns</p>
+</div>
+The dataset have 785 columns. The first column consists of the class labels(0-9), and represents the article of clothing. The rest of the columns contain the pixel-values of the associated image.
+
+## 2) Exploratory data analysis
+View the shape of the dataframe
+```python
+fashion_train_df.shape
+```
+{% highlight text %}
+(60000, 785)
+{% endhighlight %}
+```python
+fashion_test_df.shape
+```
+{% highlight text %}
+(10000, 785)
+{% endhighlight %}
+
+Create training and testing arrays so that we can visualize the data
+```python
+training = np.array(fashion_train_df, dtype = 'float32')
+testing = np.array(fashion_test_df, dtype='float32')
+```
+Viewing the arrays
+```python
+training
+```
+{% highlight text %}
+array([[2., 0., 0., ..., 0., 0., 0.],
+       [9., 0., 0., ..., 0., 0., 0.],
+       [6., 0., 0., ..., 0., 0., 0.],
+       ...,
+       [8., 0., 0., ..., 0., 0., 0.],
+       [8., 0., 0., ..., 0., 0., 0.],
+       [7., 0., 0., ..., 0., 0., 0.]], dtype=float32)
+{% endhighlight %}
+
+View the images of the data
+```python
+import random
+# Select any random index from 1 to 60,000
+i = random.randint(1,60000)
+# Reshape and plot the image
+plt.imshow( training[i,1:].reshape((28,28)) )
+# Display the label of the image
+label = training[i,0]
+label
+```
+{% highlight text %}
+6.0
+{% endhighlight %}
+<img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/image1.jpg" alt="">
+The output is a 28x28 pixels image with a label of 6, indicating a shirt.
+</br>
+View more images in a grid
+```python
+# Define the dimensions of the plot grid 
+W_grid = 6
+L_grid = 6
+
+# subplot return the figure object and axes object
+# we can use the axes object to plot specific figures at various locations
+fig, axes = plt.subplots(L_grid, W_grid, figsize = (20,20))
+
+# flaten the 6 x 6 matrix into 36 array
+axes = axes.ravel()
+
+# get the length of the training dataset
+n_training = len(training)
+
+# Select a random number from 0 to n_training
+for i in np.arange(0, W_grid * L_grid): # create evenly spaces variables 
+    # Select a random number
+    index = np.random.randint(0, n_training)
+    # read and display an image with the selected index    
+    axes[i].imshow( training[index,1:].reshape((28,28)) )
+    axes[i].set_title(training[index,0], fontsize = 15)
+    axes[i].axis('off')
+
+# Spacing
+plt.subplots_adjust(hspace=0.5)
+```
+<img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/image2.jpg" alt="">
+
+
 
 
 ```python
