@@ -237,7 +237,7 @@ label
 {% endhighlight %}
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/image1.jpg" alt="">
 The output is a 28x28 pixels image with a label of 6, indicating a shirt.
-</br>
+<br/>
 View more images in a grid
 ```python
 # Define the dimensions of the plot grid 
