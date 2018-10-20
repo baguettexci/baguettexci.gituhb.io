@@ -271,7 +271,7 @@ plt.subplots_adjust(hspace=0.5)
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/image2.jpg" alt="">
 
 ## 3) Training
-Prepare the training and testing dataset. Since the image data in x_train and x_test is from 0 to 255 , we need to rescale this from 0 to 1 by performing a normalization.
+Prepare the training and testing dataset. Since the image data in X_train and X_test is from 0 to 255 , we need to rescale this from 0 to 1 by performing a normalization.
 <br/>
 $${\text Normalization}= \frac{X - X_{\text min}}{X_{\text max} - X_{\text min}}= \frac{(X - 0)}{(255 - 0)}$$
 <br/>
@@ -293,7 +293,7 @@ X_train = X_train.reshape(X_train.shape[0], *(28, 28, 1))
 X_test = X_test.reshape(X_test.shape[0], *(28, 28, 1))
 X_validate = X_validate.reshape(X_validate.shape[0], *(28, 28, 1))
 ```
-View the shape
+View the shape of the data
 ```python
 X_train.shape
 ```
