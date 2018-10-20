@@ -354,7 +354,7 @@ cnn_model.fit(X_train,
 
 {% endhighlight %}
 
-## 3) Evaluating
+## 4) Evaluating
 ```python
 evaluation = cnn_model.evaluate(X_test, y_test)
 # Print the accuracy which is the second element within the evaluation term
@@ -365,6 +365,10 @@ print('Test Accuracy : {:.3f}'.format(evaluation[1]))
 Test Accuracy : 0.919
 {% endhighlight %}
 
+
+## 5) Improving the model
+adding more feature detectors/filters
+adding dropout
 
 
 
