@@ -7,6 +7,7 @@ tags:
 header:
   image: ""
 excerpt: "Machine Learning, Data Science"
+mathjax: "true"
 ---
 Fashion-MNIST is a dataset of Zalando's article images consisting of 70,000 images divided into 60,000 training and 10,000 testing samples.
 Each dataset sample consists of a 28x28 grayscale image, associated with a label from 10 classes.
@@ -245,28 +246,82 @@ W_grid = 6
 L_grid = 6
 
 # subplot return the figure object and axes object
-# we can use the axes object to plot specific figures at various locations
+# We can use the axes object to plot specific figures at various locations
 fig, axes = plt.subplots(L_grid, W_grid, figsize = (20,20))
 
-# flaten the 6 x 6 matrix into 36 array
+# Flaten the 6 x 6 matrix into 36 array
 axes = axes.ravel()
 
-# get the length of the training dataset
+# Get the length of the training dataset
 n_training = len(training)
 
 # Select a random number from 0 to n_training
-for i in np.arange(0, W_grid * L_grid): # create evenly spaces variables 
+for i in np.arange(0, W_grid * L_grid): # Create evenly spaces variables 
     # Select a random number
     index = np.random.randint(0, n_training)
-    # read and display an image with the selected index    
+    # Read and display an image with the selected index    
     axes[i].imshow( training[index,1:].reshape((28,28)) )
     axes[i].set_title(training[index,0], fontsize = 15)
+    # Remove the axis showing the no. of pixels
     axes[i].axis('off')
 
 # Spacing
 plt.subplots_adjust(hspace=0.5)
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/image2.jpg" alt="">
+
+## 3) Training
+Prepare the training and testing dataset 
+<br/>
+Since the image data in x_train and x_test is from 0 to 255 , we need to rescale this from 0 to 1(Normalization). 
+$${\text Normalization}= tf(t,d)\times idf(t)$$
+$${\text Normalization}= \frac{X - X_min}{X_max - X_min}$$
+To do this we need to divide the x_train and x_test by 255
+```python
+X_train = training[:,1:]/255
+y_train = training[:,0]
+X_test = testing[:,1:]/255
+y_test = testing[:,0]
+```
+Do a hold-out validation by spliting the data into 8:2 for training and testing
+```python
+from sklearn.model_selection import train_test_split
+X_train, X_validate, y_train, y_validate = train_test_split(X_train, y_train, test_size = 0.2, random_state = 5)
+```
+Reshape the data to be in a form of 28x28x1(1 indicating a grayscale image), a form that the convolutional neural network will accept the data.
+```python
+X_train = X_train.reshape(X_train.shape[0], *(28, 28, 1))
+X_test = X_test.reshape(X_test.shape[0], *(28, 28, 1))
+X_validate = X_validate.reshape(X_validate.shape[0], *(28, 28, 1))
+```
+View the shape
+```python
+X_train.shape
+```
+{% highlight text %}
+(48000, 28, 28, 1)
+{% endhighlight %}
+```python
+X_test.shape
+```
+{% highlight text %}
+(10000, 28, 28, 1)
+{% endhighlight %}
+```python
+X_validate.shape
+```
+{% highlight text %}
+(12000, 28, 28, 1)
+{% endhighlight %}
+
+Import libraries to perform the convolutional neural network
+```python
+import keras
+from keras.models import Sequential
+from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
+from keras.optimizers import Adam
+from keras.callbacks import TensorBoard
+```
 
 
 
