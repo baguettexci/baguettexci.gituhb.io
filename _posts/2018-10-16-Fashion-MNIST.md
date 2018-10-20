@@ -274,10 +274,8 @@ plt.subplots_adjust(hspace=0.5)
 Prepare the training and testing dataset 
 <br/>
 Since the image data in x_train and x_test is from 0 to 255 , we need to rescale this from 0 to 1(Normalization). 
-$${\text Normalization}= tf(t,d)\times idf(t)$$
-$${\text Normalization}= \frac{X - X_m_i_n}{X_max - X_min}$$
-$$${\text Normalization}= \frac{X - X_(min)}{X_max - X_min}$$$
-$$$${\text Normalization}= \frac{X - X_{min}}{X_max - X_min}$$$$
+$${\text Normalization}= \frac{X - X_(min)}{X_(max) - X_(min)}$$
+$${\text Normalization}= \frac{X - X_{\text min}}{X_(max) - X_(min)}$$
 To do this we need to divide the x_train and x_test by 255
 ```python
 X_train = training[:,1:]/255
