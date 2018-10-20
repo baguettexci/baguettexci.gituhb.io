@@ -273,7 +273,8 @@ plt.subplots_adjust(hspace=0.5)
 ## 3) Training
 Prepare the training and testing dataset. Since the image data in x_train and x_test is from 0 to 255 , we need to rescale this from 0 to 1 by performing a normalization.
 <br/>
-$${\text Normalization}= \frac{X - X_{\text min}}{X_{\text max} - X_{\text min}}= \frac{X - 0}{255 - 0}$$
+$${\text Normalization}= \frac{X - X_{\text min}}{X_{\text max} - X_{\text min}}= \frac{(X - 0)}{(255 - 0)}$$
+<br/>
 Therefore in order to do this we need to divide the X_train and X_test by 255
 ```python
 X_train = training[:,1:]/255
@@ -286,7 +287,7 @@ Do a hold-out validation by spliting the data into 8:2 for training and testing
 from sklearn.model_selection import train_test_split
 X_train, X_validate, y_train, y_validate = train_test_split(X_train, y_train, test_size = 0.2, random_state = 5)
 ```
-Reshape the data to be in a form of 28x28x1(1 indicating a grayscale image), a form that the convolutional neural network will accept the data.
+Reshape the data to be in a form of 28x28x1 (1 indicating a grayscale image), a form that the convolutional neural network will accept the data.
 ```python
 X_train = X_train.reshape(X_train.shape[0], *(28, 28, 1))
 X_test = X_test.reshape(X_test.shape[0], *(28, 28, 1))
@@ -320,6 +321,49 @@ from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 from keras.optimizers import Adam
 from keras.callbacks import TensorBoard
 ```
+Contructing the convolutional neural network layers
+```python
+cnn_model = Sequential()
+
+# Try 32 fliters first then 64
+cnn_model.add(Conv2D(64,3, 3, input_shape = (28,28,1), activation='relu'))
+cnn_model.add(MaxPooling2D(pool_size = (2, 2)))
+
+cnn_model.add(Dropout(0.25))
+
+# cnn_model.add(Conv2D(32,3, 3, activation='relu'))
+# cnn_model.add(MaxPooling2D(pool_size = (2, 2)))
+
+cnn_model.add(Flatten())
+# Hidden layer
+cnn_model.add(Dense(output_dim = 32, activation = 'relu'))
+# Output layer
+cnn_model.add(Dense(output_dim = 10, activation = 'sigmoid'))
+
+cnn_model.compile(loss ='sparse_categorical_crossentropy', optimizer=Adam(lr=0.001),metrics =['accuracy'])
+
+epochs = 50
+cnn_model.fit(X_train,
+              y_train,
+              batch_size = 512,
+              nb_epoch = epochs,
+              verbose = 1,
+              validation_data = (X_validate, y_validate))
+```
+{% highlight text %}
+
+{% endhighlight %}
+
+## 3) Evaluating
+```python
+evaluation = cnn_model.evaluate(X_test, y_test)
+# Print the accuracy which is the second element within the evaluation term
+print('Test Accuracy : {:.3f}'.format(evaluation[1]))
+```
+{% highlight text %}
+10000/10000 [==============================] - 4s 372us/step
+Test Accuracy : 0.919
+{% endhighlight %}
 
 
 
