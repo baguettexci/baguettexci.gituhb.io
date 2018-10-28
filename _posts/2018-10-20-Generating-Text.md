@@ -35,7 +35,17 @@ Viewing the first 1000 characters
 raw_text[:1000]
 ```
 {% highlight text %}
-"ï»¿chapter i. down the rabbit-hole\n\nalice was beginning to get very tired of sitting by her sister on the\nbank, and of having nothing to do: once or twice she had peeped into the\nbook her sister was reading, but it had no pictures or conversations in\nit, 'and what is the use of a book,' thought alice 'without pictures or\nconversations?'\n\nso she was considering in her own mind (as well as she could, for the\nhot day made her feel very sleepy and stupid), whether the pleasure\nof making a daisy-chain would be worth the trouble of getting up and\npicking the daisies, when suddenly a white rabbit with pink eyes ran\nclose by her.\n\nthere was nothing so very remarkable in that; nor did alice think it so\nvery much out of the way to hear the rabbit say to itself, 'oh dear!\noh dear! i shall be late!' (when she thought it over afterwards, it\noccurred to her that she ought to have wondered at this, but at the time\nit all seemed quite natural); but when the rabbit actually took a watch\nout of its wais"
+"ï»¿chapter i. down the rabbit-hole\n\nalice was beginning to get very tired of sitting by her 
+sister on the\nbank, and of having nothing to do: once or twice she had peeped into the\nbook 
+her sister was reading, but it had no pictures or conversations in\nit, 'and what is the use of 
+a book,' thought alice 'without pictures or\nconversations?'\n\nso she was considering in her 
+own mind (as well as she could, for the\nhot day made her feel very sleepy and stupid), whether 
+the pleasure\nof making a daisy-chain would be worth the trouble of getting up and\npicking the 
+daisies, when suddenly a white rabbit with pink eyes ran\nclose by her.\n\nthere was nothing so 
+very remarkable in that; nor did alice think it so\nvery much out of the way to hear the rabbit 
+say to itself, 'oh dear!\noh dear! i shall be late!' (when she thought it over afterwards, it\noccurred 
+to her that she ought to have wondered at this, but at the time\nit all seemed quite natural); 
+but when the rabbit actually took a watch\nout of its wais"
 {% endhighlight %} 
 
 ## 2) Data Preprocessing
