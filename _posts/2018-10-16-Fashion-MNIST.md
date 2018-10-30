@@ -29,7 +29,7 @@ import seaborn as sns
 ### Load & Viewing the Data
 ```python
 # dataframes creation for both training and testing datasets 
-fashion_train_df = pd.read_csv('fashion-mnist_train.csv',sep=',')
+fashion_train_df = pd.read_csv('fashion-mnist_train.csv', sep=',')
 fashion_test_df = pd.read_csv('fashion-mnist_test.csv', sep = ',')
 fashion_train_df.head()
 ```
@@ -189,7 +189,7 @@ fashion_train_df.head()
 The dataset have 785 columns. The first column consists of the class labels(0-9), and represents the article of clothing. The rest of the columns contain the pixel-values of the associated image.
 
 ## 2) Exploratory data analysis
-View the shape of the dataframe
+View the shape of the dataframe. The shape conforms to the split of 60,000 training and 10,000 testing samples, with 785 columns
 ```python
 fashion_train_df.shape
 ```
@@ -237,7 +237,9 @@ label
 6.0
 {% endhighlight %}
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/image1.jpg" alt="">
+<br/>
 The output is a 28x28 pixels image with a label of 6, indicating a shirt.
+<br/>
 <br/>
 View more images in a grid
 ```python
@@ -269,6 +271,7 @@ for i in np.arange(0, W_grid * L_grid): # Create evenly spaces variables
 plt.subplots_adjust(hspace=0.5)
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/image2.jpg" alt="">
+Most of the classes are represented with an image.
 
 ## 3) Training
 Prepare the training and testing dataset. Since the image data in X_train and X_test is from 0 to 255 , we need to rescale this from 0 to 1 by performing a normalization.
@@ -321,7 +324,7 @@ from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 from keras.optimizers import Adam
 from keras.callbacks import TensorBoard
 ```
-Contructing the convolutional neural network layers
+Contructing the convolutional neural network layers. By using the Sequential class with a linear stacks of layers consisting of Conv2D with relu activation, max pooling to downsample feature maps, flatten to a 1D tensor which is needed for processing in the dense layer, an intermediate dense layer with 32 units and a relu activation, a output dense layer of 10 units and a sigmoid activation as it is a multilabel classification problem. For the compliation step, use an adam optimizer with learning rate of 0.001 which is a good default setting, the sparse_categorical_crossentropy as loss function since the labels are integers, an accuracy metrics to report on accuracy values.
 ```python
 model = Sequential()
 model.add(Conv2D(32,3, 3, input_shape = (28,28,1), activation='relu'))
@@ -336,6 +339,7 @@ model.add(Dense(output_dim = 10, activation = 'sigmoid'))
 model.compile(loss ='sparse_categorical_crossentropy', optimizer=Adam(lr=0.001), metrics =['accuracy'])
 ```
 
+Train the model for 50 epochs, an iteration over all samples in the X_train and y_train, in mini batches of 512 samples and monitor the loss and accuracy on the validation data.
 ```python
 # Run the model with the training set against the validation set
 train_model = model.fit(X_train,
@@ -452,9 +456,8 @@ Epoch 50/50
 48000/48000 [==============================] - 4s 91us/step - loss: 0.1493 - acc: 0.9475 - val_loss: 0.2648 - val_acc: 0.9078
 {% endhighlight %}
 
-
+Plot the training and validation accuracy and loss, using a history object defined in model.fit(), which is a dictionary containing data about everything that happened during training.
 ```python
-# Plot the training and validation accuracy and loss, from the training history.
 hist = train_model.history
 acc = hist['acc']
 val_acc = hist['val_acc']
