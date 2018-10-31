@@ -833,17 +833,16 @@ Test Accuracy : 0.919
 {% endhighlight %}
 The test accuracy reaches 91.9%
 
-## 7) 128 + Dropout + Extra layer
+## 6) Increasing to 128 filters with extra layers
+Try to further improve the accuracy by increasing the no. of filters/kernels to 128 with the same settings and a stack of alternated Conv2D and MaxPooling2D layers.
 ```python
 model = Sequential()
-
 model.add(Conv2D(128,3, 3, input_shape = (28,28,1), activation='relu'))
 model.add(MaxPooling2D(pool_size = (2, 2)))
 model.add(Dropout(0.25))
 model.add(Conv2D(128,3, 3, activation='relu'))
 model.add(MaxPooling2D(pool_size = (2, 2)))
 model.add(Dropout(0.25))
-
 model.add(Flatten())
 # Hidden layer
 model.add(Dense(output_dim = 32, activation = 'relu'))
@@ -1005,11 +1004,12 @@ Test Accuracy : 0.926
 
 
 ## 8) Conclusion
+Get the predictions for the test data
 ```python
-# get the predictions for the test data
 predicted_classes = model.predict_classes(X_test)
 ```
 
+Display the prediction against true class on a grid
 ```python
 L = 5
 W = 5
@@ -1024,7 +1024,9 @@ for i in np.arange(0, L * W):
 plt.subplots_adjust(wspace=0.5)
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/image3.jpg" alt="">
-
+We could see the some classes are predicted wrongly, like on grid (2,1) and (1,4). The true class is a pullover, however the model predicted it to be a shirt and coat respectively. Indeed, it's hard to distinguish between those 3 classes.
+<br/>
+Viewing the confusion matrix on a heatmap
 ```python
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, predicted_classes)
@@ -1033,6 +1035,7 @@ sns.heatmap(cm, cmap='pink', annot=True)
 # Sum the diagonal element to get the total true correct values
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/heatmap.jpg" alt="">
+Class 6, pullover had the most misclassification.
 
 ```python
 from sklearn.metrics import classification_report
