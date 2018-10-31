@@ -480,7 +480,10 @@ ax[1].legend()
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/plot1.jpg" alt="">
+These plot shows characteristic of overfitting. The training accuracy increases linearly over time until it reaches nearly 95%, whereas the validation accuracy stalls at 90%. The validation less reaches its minimum after about 19 epochs and then stalls, whereas the training loss keeps decreasing linearly until it reaches nearly 0.
+<br/>
 
+Evaluating on the test dataset
 ```python
 evaluation = model.evaluate(X_test, y_test)
 # Print the accuracy which is the second element within the evaluation term
@@ -490,20 +493,10 @@ print('Test Accuracy : {:.3f}'.format(evaluation[1]))
 10000/10000 [==============================] - 1s 123us/step
 Test Accuracy : 0.913
 {% endhighlight %}
+The test accuracy reaches 91.3%. Try adding a dropout layer to mitigate the overfitting.
 
-
-## 4) Evaluating
-```python
-evaluation = cnn_model.evaluate(X_test, y_test)
-# Print the accuracy which is the second element within the evaluation term
-print('Test Accuracy : {:.3f}'.format(evaluation[1]))
-```
-{% highlight text %}
-10000/10000 [==============================] - 3s 286us/step
-Test Accuracy : 0.913
-{% endhighlight %}
-
-## 5) Add a dropout 
+## 4) Add a dropout layer
+Run using the same setting but with a Dropout layer with dropout rate of 0.25.
 ```python
 model = Sequential()
 model.add(Conv2D(32,3, 3, input_shape = (28,28,1), activation='relu'))
@@ -656,9 +649,11 @@ ax[1].legend()
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/plot2.jpg" alt="">
+The model reach a validation accuracy of about 91.5%, which is much better than the previous model. With the dropout layer, the model is also much better at generalizing.
+<br/>
 
+Re-evaluating the test dataset on the new model
 ```python
-# Re-evaluate the test prediction accuracy with the new model
 evaluation = model.evaluate(X_test, y_test)
 # Print the accuracy which is the second element within the evaluation term
 print('Test Accuracy : {:.3f}'.format(evaluation[1]))
@@ -667,8 +662,10 @@ print('Test Accuracy : {:.3f}'.format(evaluation[1]))
 10000/10000 [==============================] - 1s 125us/step
 Test Accuracy : 0.915
 {% endhighlight %}
+The test accuracy reaches 91.5% which happens to be the same as the validation accuracy and is also performing slightly better than the previous model.
 
-## 6) 64 + dropout
+## 5) Increasing to 64 filters
+Try improving the accuracy by increasing the no. of filters/kernels to 64 with the same settings and the dropout layer.
 ```python
 model = Sequential()
 model.add(Conv2D(64,3, 3, input_shape = (28,28,1), activation='relu'))
@@ -821,9 +818,11 @@ ax[1].legend()
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/plot3.jpg" alt="">
+These plot shows characteristic of overfitting. The model begins to overfit after about 15 epochs and the validation accuracy and loss begins to stall.
+<br/>
 
+Evaluating against the test dataset
 ```python
-# Re-evaluate the test prediction accuracy with the new model
 evaluation = model.evaluate(X_test, y_test)
 # Print the accuracy which is the second element within the evaluation term
 print('Test Accuracy : {:.3f}'.format(evaluation[1]))
@@ -832,6 +831,7 @@ print('Test Accuracy : {:.3f}'.format(evaluation[1]))
 10000/10000 [==============================] - 2s 153us/step
 Test Accuracy : 0.919
 {% endhighlight %}
+The test accuracy reaches 91.9%
 
 ## 7) 128 + Dropout + Extra layer
 ```python
