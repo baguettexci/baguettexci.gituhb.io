@@ -1037,7 +1037,7 @@ sns.heatmap(cm, cmap='pink', annot=True)
 # Sum the diagonal element to get the total true correct values
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/heatmap.jpg" alt="">
-Seem like class 6, pullover had the most misclassification.
+Seems like class 6, pullover had the most misclassification.
 <br/>
 View the classification report of all classes
 ```python
