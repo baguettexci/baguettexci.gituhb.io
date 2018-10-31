@@ -990,7 +990,9 @@ ax[1].legend()
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/plot4.jpg" alt="">
-
+There are signs of overfitting from the model after about 20 epochs and the validation accuracy and loss begins to stall. 
+<br/>
+Evaluating against the test dataset
 ```python
 # Re-evaluate the test prediction accuracy with the new model
 evaluation = model.evaluate(X_test, y_test)
@@ -1001,9 +1003,9 @@ print('Test Accuracy : {:.3f}'.format(evaluation[1]))
 10000/10000 [==============================] - 3s 274us/step
 Test Accuracy : 0.926
 {% endhighlight %}
+The test accuracy reaches 92.6%
 
-
-## 8) Conclusion
+## 7) Reviewing on the model
 Get the predictions for the test data
 ```python
 predicted_classes = model.predict_classes(X_test)
@@ -1035,8 +1037,9 @@ sns.heatmap(cm, cmap='pink', annot=True)
 # Sum the diagonal element to get the total true correct values
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/heatmap.jpg" alt="">
-Class 6, pullover had the most misclassification.
-
+Seem like class 6, pullover had the most misclassification.
+<br/>
+View the classification report of all classes
 ```python
 from sklearn.metrics import classification_report
 
@@ -1060,10 +1063,6 @@ print(classification_report(y_test, predicted_classes, target_names = target_nam
 
 avg / total       0.93      0.93      0.93     10000
 {% endhighlight %}
-
-
-adding more feature detectors/filters
-adding dropout
 
 ```python
 
