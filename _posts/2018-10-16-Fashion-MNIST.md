@@ -189,7 +189,7 @@ fashion_train_df.head()
 The dataset have 785 columns. The first column consists of the class labels(0-9), and represents the article of clothing. The rest of the columns contain the pixel-values of the associated image.
 
 ## 2) Exploratory data analysis
-View the shape of the dataframe. The shape conforms to the split of 60,000 training and 10,000 testing samples, with 785 columns
+### View the shape of the dataframe
 ```python
 fashion_train_df.shape
 ```
@@ -202,13 +202,13 @@ fashion_test_df.shape
 {% highlight text %}
 (10000, 785)
 {% endhighlight %}
-
-Create training and testing arrays so that we can visualize the data
+The shape conforms to the split of 60,000 training and 10,000 testing samples, with 785 columns
+### Create training and testing arrays so that we can visualize the data
 ```python
 training = np.array(fashion_train_df, dtype = 'float32')
 testing = np.array(fashion_test_df, dtype='float32')
 ```
-Viewing the arrays
+### Viewing the arrays
 ```python
 training
 ```
@@ -222,7 +222,7 @@ array([[2., 0., 0., ..., 0., 0., 0.],
        [7., 0., 0., ..., 0., 0., 0.]], dtype=float32)
 {% endhighlight %}
 
-View the images of the data
+### View the images of the data
 ```python
 import random
 # Select any random index from 1 to 60,000
@@ -240,8 +240,7 @@ label
 <br/>
 The output is a 28x28 pixels image with a label of 6, indicating a shirt.
 <br/>
-<br/>
-View more images in a grid
+### View more images in a grid
 ```python
 # Define the dimensions of the plot grid 
 W_grid = 6
@@ -274,7 +273,8 @@ plt.subplots_adjust(hspace=0.5)
 Most of the classes are represented with an image.
 
 ## 3) Training
-Prepare the training and testing dataset. Since the image data in X_train and X_test is from 0 to 255 , we need to rescale this from 0 to 1 by performing a normalization.
+### Prepare the training and testing dataset. 
+Since the image data in X_train and X_test is from 0 to 255 , we need to rescale this from 0 to 1 by performing a normalization.
 <br/>
 $${\text Normalization}= \frac{X - X_{\text min}}{X_{\text max} - X_{\text min}}= \frac{(X - 0)}{(255 - 0)}$$
 <br/>
@@ -296,7 +296,7 @@ X_train = X_train.reshape(X_train.shape[0], *(28, 28, 1))
 X_test = X_test.reshape(X_test.shape[0], *(28, 28, 1))
 X_validate = X_validate.reshape(X_validate.shape[0], *(28, 28, 1))
 ```
-View the shape of the data
+### View the shape of the data
 ```python
 X_train.shape
 ```
@@ -316,7 +316,7 @@ X_validate.shape
 (12000, 28, 28, 1)
 {% endhighlight %}
 
-Import libraries to perform the convolutional neural network
+### Import libraries to perform the convolutional neural network
 ```python
 import keras
 from keras.models import Sequential
@@ -324,7 +324,8 @@ from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 from keras.optimizers import Adam
 from keras.callbacks import TensorBoard
 ```
-Contructing the convolutional neural network layers. By using the Sequential class with a linear stacks of layers consisting of Conv2D with relu activation, max pooling to downsample feature maps, flatten to a 1D tensor which is needed for processing in the dense layer, an intermediate dense layer with 32 units and a relu activation, a output dense layer of 10 units and a sigmoid activation as it is a multilabel classification problem. For the compliation step, use an adam optimizer with learning rate of 0.001 which is a good default setting, the sparse_categorical_crossentropy as loss function since the labels are integers, an accuracy metrics to report on accuracy values.
+### Contructing the convolutional neural network layers. 
+By using the Sequential class with a linear stacks of layers consisting of Conv2D with relu activation, max pooling to downsample feature maps, flatten to a 1D tensor which is needed for processing in the dense layer, an intermediate dense layer with 32 units and a relu activation, a output dense layer of 10 units and a sigmoid activation as it is a multilabel classification problem. For the compliation step, use an adam optimizer with learning rate of 0.001 which is a good default setting, the sparse_categorical_crossentropy as loss function since the labels are integers, an accuracy metrics to report on accuracy values.
 ```python
 model = Sequential()
 model.add(Conv2D(32,3, 3, input_shape = (28,28,1), activation='relu'))
@@ -481,9 +482,8 @@ plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/plot1.jpg" alt="">
 These plot shows characteristic of overfitting. The training accuracy increases linearly over time until it reaches nearly 95%, whereas the validation accuracy stalls at 90%. The validation less reaches its minimum after about 19 epochs and then stalls, whereas the training loss keeps decreasing linearly until it reaches nearly 0.
-<br/>
 
-Evaluating on the test dataset
+### Evaluating on the test dataset
 ```python
 evaluation = model.evaluate(X_test, y_test)
 # Print the accuracy which is the second element within the evaluation term
@@ -652,7 +652,7 @@ plt.show()
 The model reach a validation accuracy of about 91.5%, which is much better than the previous model. With the dropout layer, the model is also much better at generalizing.
 <br/>
 
-Re-evaluating the test dataset on the new model
+### Re-evaluating the test dataset on the new model
 ```python
 evaluation = model.evaluate(X_test, y_test)
 # Print the accuracy which is the second element within the evaluation term
@@ -819,9 +819,8 @@ plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/plot3.jpg" alt="">
 These plot shows characteristic of overfitting. The model begins to overfit after about 15 epochs and the validation accuracy and loss begins to stall.
-<br/>
 
-Evaluating against the test dataset
+### Evaluating against the test dataset
 ```python
 evaluation = model.evaluate(X_test, y_test)
 # Print the accuracy which is the second element within the evaluation term
@@ -991,8 +990,8 @@ plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/plot4.jpg" alt="">
 There are signs of overfitting from the model after about 20 epochs and the validation accuracy and loss begins to stall. 
-<br/>
-Evaluating against the test dataset
+
+### Evaluating against the test dataset
 ```python
 # Re-evaluate the test prediction accuracy with the new model
 evaluation = model.evaluate(X_test, y_test)
@@ -1006,12 +1005,12 @@ Test Accuracy : 0.926
 The test accuracy reaches 92.6%
 
 ## 7) Reviewing on the model
-Get the predictions for the test data
+### Get the predictions for the test data
 ```python
 predicted_classes = model.predict_classes(X_test)
 ```
 
-Display the prediction against true class on a grid
+### Display the prediction against true class on a grid
 ```python
 L = 5
 W = 5
@@ -1027,8 +1026,8 @@ plt.subplots_adjust(wspace=0.5)
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/image3.jpg" alt="">
 We could see the some classes are predicted wrongly, like on grid (2,1) and (1,4). The true class is a pullover, however the model predicted it to be a shirt and coat respectively. Indeed, it's hard to distinguish between those 3 classes.
-<br/>
-Viewing the confusion matrix on a heatmap
+
+### Viewing the confusion matrix on a heatmap
 ```python
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, predicted_classes)
@@ -1038,8 +1037,8 @@ sns.heatmap(cm, cmap='pink', annot=True)
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Fashion mnist/heatmap.jpg" alt="">
 Seems like class 6, pullover had the most misclassification.
-<br/>
-View the classification report of all classes
+
+### View the classification report of all classes
 ```python
 from sklearn.metrics import classification_report
 
