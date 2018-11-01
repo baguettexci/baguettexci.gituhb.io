@@ -9,11 +9,10 @@ header:
 excerpt: "Machine Learning, Data Science"
 ---
 
-The aim
+The aim is to create a model generating text, character by character using LSTM recurrent neural networks with Keras. The dataset used to create the generative model is taken from Project Gutenberg, a site to get access to free books that are no longer protected by copyright. We will be using the text from Alice's Adventures in Wonderland by Lewis Carroll to train the model and also be running on GPU to speed up the computation.
 ## 1) Setup
 ### Load packages
 ```python
-# Small LSTM Network to Generate Text for Alice in Wonderland
 import numpy
 import sys
 from keras.models import Sequential
@@ -30,7 +29,7 @@ from keras.utils import np_utils
 text = open("wonderland.txt").read()
 text = text.lower()
 ```
-Viewing the first 1000 characters
+### Viewing the first 1000 characters
 ```python
 raw_text[:1000]
 ```
@@ -50,15 +49,14 @@ but when the rabbit actually took a watch\nout of its wais"
 
 
 ## 2) Data Preprocessing
+### Create mapping of unique chars to integers and a reverse mapping
 ```python
-# create mapping of unique chars to integers and a reverse mapping
 chars = sorted(list(set(text)))
 char_to_int = dict((c, i) for i, c in enumerate(chars))
 int_to_char = dict((i, c) for i, c in enumerate(chars))
 ```
-
+### Summarize the loaded data
 ```python
-# summarize the loaded data
 n_chars = len(text)
 n_vocab = len(chars)
 print("Total Characters: ", n_chars)
@@ -69,6 +67,7 @@ Total Characters:  144345
 Total Vocab:  46
 {% endhighlight %} 
 
+### Display the unique vocab
 ```python
 print(chars)
 ```
@@ -76,8 +75,8 @@ print(chars)
 ['\n', ' ', '!', '"', "'", '(', ')', '*', ',', '-', '.', ':', ';', '?', '[', ']', '_', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '»', '¿', 'ï']
 {% endhighlight %} 
 
+### Prepare the dataset of input to output pairs encoded as integers
 ```python
-# prepare the dataset of input to output pairs encoded as integers
 seq_length = 100
 dataX = []
 dataY = []
@@ -93,24 +92,25 @@ print("Total Patterns: ", n_patterns)
 Total Patterns:  135924
 {% endhighlight %} 
 
+### Reshape into the form [samples, time steps, features]
+Transform the list of input sequences into the form expected by an LSTM network.
 ```python
-# reshape X to be [samples, time steps, features]
 X = numpy.reshape(dataX, (n_patterns, seq_length, 1))
 ```
-
+### Normalization
+Rescale the integers to the range 0 to 1, which make the patterns easier to be learn by the LSTM network that uses the sigmoid activation function by default.
 ```python
-# normalize
 X = X / float(n_vocab)
 ```
-
+### One hot encode
+Convert the output variables(single characters) into a one hot encoding, so that the network can predict the probability of each of the 46 different characters in the vocabulary. The output will be a sparse vector with a length of 46.
 ```python
-# one hot encode the output variable
 y = np_utils.to_categorical(dataY)
 ```
 
 ## 3) Training the model
+### define the LSTM model
 ```python
-# define the LSTM model
 model = Sequential()
 model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2])))
 model.add(Dropout(0.2))
@@ -165,8 +165,8 @@ Epoch 20/20
 144245/144245 [==============================] - 405s 3ms/step - loss: 1.9413
 {% endhighlight %} 
 
+### Pick a random seed sequence
 ```python
-# pick a random seed
 start = numpy.random.randint(0, len(dataX)-1)
 pattern = dataX[start]
 print("Seed:")
@@ -181,8 +181,8 @@ Seed:
 'hand it over here,' s "
 {% endhighlight %} 
 
+### Generate characters
 ```python
-# generate characters
 for i in range(1000):
     x = numpy.reshape(pattern, (1, len(pattern), 1))
     x = x / float(n_vocab)
@@ -196,10 +196,17 @@ for i in range(1000):
 print("\nDone.")
 ```
 {% highlight text %}
-aid the konk, 
-and een tees to toe toiee to the thitg sae oo the that was io an anc oo the kooer sote  the had never her aelin the woide  
-anice was soe oittle thing to be so the kooer oo tho thet was the catt with sote toene at hnr aadkne the woide of the toees was oo tie tiat was in a conner of the sooe, and she whotg taemed thre toon hn soeh a aroleus to the woode of the toees was a lontte oo tho what she was not abrit at in saading ao the could, 
-the was aolinger deaa so the thitg thete the was no the toiee of the coorersing at the could  and the borltuse so sele the wiilg rabdit would the was no the thit har and the boorerseng at the could, and the thought it was soeer the soeer saadit  and the thitghr to the toiee the harten  and the thought it was soeer the sooe of the tooes  and then the was not a conner of the saale, and the whot har aedin to the kooe oa thing the had so tee at hlr hanee an the could  aadin to the korer of thing the sabe th the korer oa thite the soies tay oo 
+aid the konk, and een tees to toe toiee to the thitg sae oo the that was io an anc oo the kooer 
+sote  the had never her aelin the woide anice was soe oittle thing to be so the kooer oo tho 
+thet was the catt with sote toene at hnr aadkne the woide of the toees was oo tie tiat was in a 
+conner of the sooe, and she whotg taemed thre toon hn soeh a aroleus to the woode of the toees 
+was a lontte oo tho what she was not abrit at in saading ao the could, the was aolinger deaa so 
+the thitg thete the was no the toiee of the coorersing at the could  and the borltuse so sele 
+the wiilg rabdit would the was no the thit har and the boorerseng at the could, and the thought 
+it was soeer the soeer saadit  and the thitghr to the toiee the harten  and the thought it was 
+soeer the sooe of the tooes  and then the was not a conner of the saale, and the whot har aedin 
+to the kooe oa thing the had so tee at hlr hanee an the could  aadin to the korer of thing the 
+sabe th the korer oa thite the soies tay oo 
 Done.
 {% endhighlight %} 
 
@@ -309,7 +316,11 @@ for i in range(800):
     pattern = pattern[1:len(pattern)]
 ```
 {% highlight text %}
-d she was to tery toietier. 'the dormouse suireled of the batter- and the thought it had fome to be a little before she had not thing to her one of the court, but she had not ao an a large crom that iad a wasch out of the way it was a little before she had not thing to her on the way the way the way the way the way the white rabbit, which was suite a little shriel, and she white rabbit replied, 'it sas all the batter-'
+d she was to tery toietier. 'the dormouse suireled of the batter- and the thought it had fome 
+to be a little before she had not thing to her one of the court, but she had not ao an a large 
+crom that iad a wasch out of the way it was a little before she had not thing to her on the way 
+the way the way the way the way the white rabbit, which was suite a little shriel, and she white 
+rabbit replied, 'it sas all the batter-'
 
 'i don't know it as all the same thing as all ' said the mock turtle. 'but i'sh aegan to the dance.
 
@@ -550,7 +561,17 @@ for i in range(1000):
     pattern = pattern[1:len(pattern)]
 ```
 {% highlight text %}
-t beginning to the beginning to the babk to the thing and she was so she went on and then and then alice thought alice they were all that said the caterpillar  well i she said the gryphon  the dormouse was spoetely and then they lay sp they had a conversation and there was a long silence and then the mock turtle said to the jury  she mock turtle senlied  there was a long silence and then all the thing and she was so saying to herself in a moment that it was a little befin and then all the court and the mock turtle said the queen  i dont know that she was a very gind her something was and she said to herself i shall be a call i can rail iis head out of the words a little bett that she was a very gind her something was and she said to herself in a moment that it was a little befin and then all the court and the mock turtle said the queen  i dont know that she was a very gind her something was and she said to herself i shall be a call i can rail iis head out of the words a little bett tha
+t beginning to the beginning to the babk to the thing and she was so she went on and then and 
+then alice thought alice they were all that said the caterpillar  well i she said the gryphon  
+the dormouse was spoetely and then they lay sp they had a conversation and there was a long 
+silence and then the mock turtle said to the jury  she mock turtle senlied  there was a long 
+silence and then all the thing and she was so saying to herself in a moment that it was a 
+little befin and then all the court and the mock turtle said the queen  i dont know that she 
+was a very gind her something was and she said to herself i shall be a call i can rail iis 
+head out of the words a little bett that she was a very gind her something was and she said 
+to herself in a moment that it was a little befin and then all the court and the mock turtle 
+said the queen  i dont know that she was a very gind her something was and she said to herself 
+i shall be a call i can rail iis head out of the words a little bett tha
 {% endhighlight %} 
 
 
