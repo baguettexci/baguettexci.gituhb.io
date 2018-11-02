@@ -10,6 +10,7 @@ excerpt: "Machine Learning, Data Science"
 ---
 
 The aim is to create a model generating text, character by character using LSTM recurrent neural networks with Keras. The dataset used to create the generative model is taken from Project Gutenberg, a site to get access to free books that are no longer protected by copyright. We will be using the text from Alice's Adventures in Wonderland by Lewis Carroll to train the model and also be running on GPU to speed up the computation.
+<img src="{{ site.url }}{{ site.baseurl }}/images/Generating Text/Alice colour.png" alt="">
 ## 1) Setup
 ### Load packages
 ```python
