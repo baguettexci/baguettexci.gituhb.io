@@ -88,7 +88,7 @@ Split the book's text into subsequences with a fixed length of 100 characters, a
 Example, a sequence length of 5 with the text "alice in wonderland", the first 5 training patterns(not mapped as integers for simplicity) would be as follows:
 <br/>
 
-<table border="1" class="dataframe" table-layout:auto;>
+<table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>dataX</th>
