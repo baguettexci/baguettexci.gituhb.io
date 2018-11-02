@@ -9,7 +9,9 @@ header:
 excerpt: "Machine Learning, Data Science"
 ---
 
-The aim is to create a model generating text, character by character using LSTM recurrent neural networks with Keras. The dataset used to create the generative model is taken from Project Gutenberg, a site to get access to free books that are no longer protected by copyright. We will be using the text from Alice's Adventures in Wonderland by Lewis Carroll to train the model and also be running on GPU to speed up the computation.
+The aim is to develop a model generating text, character by character using LSTM recurrent neural networks with Keras. 
+<br/>
+The dataset used to create the generative model is taken from Project Gutenberg, a site to get access to free books that are no longer protected by copyright. We will be using the text from Alice's Adventures in Wonderland by Lewis Carroll to train the model and also be running on GPU to speed up the computation.
 <img src="{{ site.url }}{{ site.baseurl }}/images/Generating Text/Alice colour.png" alt="">
 ## 1) Setup
 ### Load packages
@@ -25,11 +27,13 @@ from keras.utils import np_utils
 ```
 
 ### Load & Viewing the Data
+Load the text file for the book and convert all of the characters to lowercase to reduce the number of vocabulary that the model must learn.
 ```python
 # load ascii text and convert to lowercase
 text = open("wonderland.txt").read()
 text = text.lower()
 ```
+
 ### Viewing the first 1000 characters
 ```python
 raw_text[:1000]
@@ -48,14 +52,23 @@ to her that she ought to have wondered at this, but at the time\nit all seemed q
 but when the rabbit actually took a watch\nout of its wais"
 {% endhighlight %} 
 
-
 ## 2) Data Preprocessing
-### Create mapping of unique chars to integers and a reverse mapping
+### Create mapping of unique characters to integers and a reverse mapping
+Convert the unique characters to integers, by first creating a set of all distinct characters from the book and then create a mapping of each character to a unique integer. Also create a reverse mapping that can be use to convert the integers back to characters so that we can understand the predictions.
 ```python
 chars = sorted(list(set(text)))
 char_to_int = dict((c, i) for i, c in enumerate(chars))
 int_to_char = dict((i, c) for i, c in enumerate(chars))
 ```
+### Display the unique vocabulary
+```python
+print(chars)
+```
+{% highlight text %}
+['\n', ' ', '!', '"', "'", '(', ')', '*', ',', '-', '.', ':', ';', '?', '[', ']', '_', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '»', '¿', 'ï']
+{% endhighlight %} 
+We can see that there may be some characters that could be removed to reduce the vocabulary further and improve the modeling process.
+
 ### Summarize the loaded data
 ```python
 n_chars = len(text)
@@ -67,16 +80,45 @@ print("Total Vocab: ", n_vocab)
 Total Characters:  144345
 Total Vocab:  46
 {% endhighlight %} 
-
-### Display the unique vocab
-```python
-print(chars)
-```
-{% highlight text %}
-['\n', ' ', '!', '"', "'", '(', ')', '*', ',', '-', '.', ':', ';', '?', '[', ']', '_', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '»', '¿', 'ï']
-{% endhighlight %} 
+The book have a total of 144,345 characters and when converted to lowercase there are 46 distinct characters in the vocabulary.
 
 ### Prepare the dataset of input to output pairs encoded as integers
+Split the book's text into subsequences with a fixed length of 100 characters, an arbitrary length. The for loop is used to iterate over the entire characters of the text and create individual training pattern comprised of 100 time steps of one character(dataX) followed by one character output(dataY). When creating these sequences, the sequence length is slided along the whole book one character at a time, allowing each character to be learned from the 100 characters that preceded it.
+<br/>
+Example, a sequence length of 5 with the text "alice in wonderland", the first 5 training patterns(not mapped as integers for simplicity) would be as follows:
+<br/>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>dataX</th>
+      <th>dataY</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[a,l,i,c,e]</td>
+      <td>[ ]</td>
+    </tr>
+    <tr>
+      <td>[l,i,c,e, ]</td>
+      <td>[i]</td>
+    </tr>
+    <tr>
+      <td>[i,c,e, ,i]</td>
+      <td>[n]</td>
+    </tr>
+    <tr>
+      <td>[c,e, ,i,n]</td>
+      <td>[ ]</td>
+    </tr>
+    <tr>
+      <td>[e, ,i,n, ]</td>
+      <td>[w]</td>
+    </tr>
+  </tbody>
+</table>
+
 ```python
 seq_length = 100
 dataX = []
@@ -110,6 +152,7 @@ y = np_utils.to_categorical(dataY)
 ```
 
 ## 3) Training the model
+Develop a LSTM network to learn sequences of characters from Alice in Wonderland and generate new sequences of characters.
 ### define the LSTM model
 ```python
 model = Sequential()
