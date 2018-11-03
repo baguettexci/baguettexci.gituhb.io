@@ -36,7 +36,7 @@ text = text.lower()
 
 ### Viewing the first 1000 characters
 ```python
-raw_text[:1000]
+text[:1000]
 ```
 {% highlight text %}
 "ï»¿chapter i. down the rabbit-hole\n\nalice was beginning to get very tired of sitting by her 
@@ -419,9 +419,15 @@ rabbit replied, 'it sas all the batter-'
   * 
   * 
 {% endhighlight %} 
+Note some observations about the generate text:
+* There are slightly lesser spelling mistakes.
+* Some phrases gets repeated again and again like "the way" and "as all".
+* "*" seems to be generated repeatedly.
 
 ## 5) Training on processed text
-
+Try to improve the quality of the generated text by removing all punctuation and non alphabetical characters from the source text.
+<br/>
+Keeping the settings the same as the previous network but increase the number of training epochs from 30 to 40.
 ### Remove any punctuation
 ```python
 import string
@@ -439,21 +445,35 @@ symbols = ['»', '¿', 'ï']
 
 for symbol in symbols:
     text = text.replace(symbol, "")
-print(text)
+```
+
+### Viewing the first 1000 characters
+```python
+text[:1000]
 ```
 {% highlight text %}
-
+'chapter i down the rabbithole  alice was beginning to get very tired of sitting by her sister on the bank and of having nothing to do once or twice she had peeped into the book her sister was reading but it had no pictures or conversations in it and what is the use of a book thought alice without pictures or conversations  so she was considering in her own mind as well as she could for the hot day made her feel very sleepy and stupid whether the pleasure of making a daisychain would be worth the trouble of getting up and picking the daisies when suddenly a white rabbit with pink eyes ran close by her  there was nothing so very remarkable in that nor did alice think it so very much out of the way to hear the rabbit say to itself oh dear oh dear i shall be late when she thought it over afterwards it occurred to her that she ought to have wondered at this but at the time it all seemed quite natural but when the rabbit actually took a watch out of its waistcoatpocket and looked at it and t'
 {% endhighlight %} 
+Now the text looks much cleaner.
 
+### Redefine the mapping and reverse mapping
 ```python
-# create mapping of unique chars to integers and a reverse mapping
 chars = sorted(list(set(text)))
 char_to_int = dict((c, i) for i, c in enumerate(chars))
 int_to_char = dict((i, c) for i, c in enumerate(chars))
 ```
 
+### Display the unique vocabulary
 ```python
-# summarize the loaded data
+print(chars)
+```
+{% highlight text %}
+[' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+{% endhighlight %} 
+Now what's left is all alphabetical and a spacing.
+
+### Summarize the loaded data
+```python
 n_chars = len(text)
 n_vocab = len(chars)
 print("Total Characters: ", n_chars)
@@ -463,16 +483,10 @@ print("Total Vocab: ", n_vocab)
 Total Characters:  136024
 Total Vocab:  27
 {% endhighlight %} 
+Now the book have a total of 136,024 characters and when converted to lowercase there are 27 distinct characters in the vocabulary.
 
+### Prepare the dataset of input to output pairs encoded as integers
 ```python
-print(chars)
-```
-{% highlight text %}
-[' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-{% endhighlight %} 
-
-```python
-# prepare the dataset of input to output pairs encoded as integers
 seq_length = 100
 dataX = []
 dataY = []
@@ -484,13 +498,23 @@ for i in range(0, n_chars - seq_length, 1):
 n_patterns = len(dataX)
 print("Total Patterns: ", n_patterns)
 ```
+{% highlight text %}
+Total Patterns:  135924
+{% endhighlight %} 
+The total number of patterns is 135,924.
 
+### Reshape into the form [samples, time steps, features]
 ```python
-# reshape X to be [samples, time steps, features]
 X = numpy.reshape(dataX, (n_patterns, seq_length, 1))
-# normalize
+```
+
+### Normalization
+```python
 X = X / float(n_vocab)
-# one hot encode the output variable
+```
+
+### One hot encode
+```python
 y = np_utils.to_categorical(dataY)
 ```
 
@@ -631,10 +655,15 @@ to herself in a moment that it was a little befin and then all the court and the
 said the queen  i dont know that she was a very gind her something was and she said to herself 
 i shall be a call i can rail iis head out of the words a little bett tha
 {% endhighlight %} 
-
+Note some observations about the generate text:
+* There are much lesser spelling mistakes and the text looks more realistic.
+* There is less repetition of phrases.
+* Overall the text is still making not much sense.
 
 ## 6) Conclusion
-
+With a sufficiently trained model, we could generate realistic text that are more language-like and legible, which at one glance could be difficult to be differentiated from actual written text by humans.
+<br/>
+To further improve the model, we could try tuning the model, such as the number of epochs, memory units, batch size or even the dropout percentage to see if we can develop a better model. We could also explore developing a word-based language model rather than a character-based model.
 
 ```python
 
