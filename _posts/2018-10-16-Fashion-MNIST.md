@@ -325,7 +325,9 @@ from keras.optimizers import Adam
 from keras.callbacks import TensorBoard
 ```
 ### Contructing the convolutional neural network layers. 
-By using the Sequential class with a linear stacks of layers consisting of Conv2D with relu activation, max pooling to downsample feature maps, flatten to a 1D tensor which is needed for processing in the dense layer, an intermediate dense layer with 32 units and a relu activation, a output dense layer of 10 units and a sigmoid activation as it is a multilabel classification problem. For the compliation step, use an adam optimizer with learning rate of 0.001 which is a good default setting, the sparse_categorical_crossentropy as loss function since the labels are integers, an accuracy metrics to report on accuracy values.
+By using the Sequential class with a linear stacks of layers consisting of Conv2D with relu activation, max pooling to downsample feature maps, flatten to a 1D tensor which is needed for processing in the dense layer, an intermediate dense layer with 32 units and a relu activation, a output dense layer of 10 units and a sigmoid activation as it is a multilabel classification problem. 
+<br/>
+For the compliation step, use an adam optimizer with learning rate of 0.001 which is a good default setting, the sparse_categorical_crossentropy as loss function since the labels are integers, an accuracy metrics to report on accuracy values.
 ```python
 model = Sequential()
 model.add(Conv2D(32,3, 3, input_shape = (28,28,1), activation='relu'))
@@ -349,9 +351,6 @@ train_model = model.fit(X_train,
                         epochs = 50,
                         verbose = 1,
                         validation_data = (X_validate, y_validate))
-                        
-# Run the model with the training set against the validation set
-train_model = model.fit(X_train, y_train, batch_size = 512, epochs = 50, verbose = 1, validation_data = (X_validate, y_validate)
 ```
 {% highlight text %}
 Train on 48000 samples, validate on 12000 samples
