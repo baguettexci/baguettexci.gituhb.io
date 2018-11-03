@@ -266,8 +266,11 @@ Note some observations about the generate text:
 * Some of the words in sequence make sense, although most are gibberish.
 
 ## 4) Training on more LSTM layers
+Try to improve the quality of the generated text by creating a much larger network.
+<br/>
+Keeping the settings the same but add a stack of alternated LSTM and Dropout layers. Also increase the number of training epochs from 20 to 30 and decrease the batch size from 128 to 64 to give the network more opportunity to be updated and learn.
+### Define the LSTM model
 ```python
-# define the LSTM model
 model = Sequential()
 model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
 model.add(Dropout(0.2))
@@ -276,9 +279,8 @@ model.add(Dropout(0.2))
 model.add(Dense(y.shape[1], activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam')
 ```
-
+### Fit the model
 ```python
-# fit the model
 model.fit(X, y, epochs=30, batch_size=64)
 ```
 {% highlight text %}
