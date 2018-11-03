@@ -422,17 +422,18 @@ rabbit replied, 'it sas all the batter-'
 
 ## 5) Training on processed text
 
+### Remove any punctuation
 ```python
 import string
-# Remove any punctuation
 text = text.translate(str.maketrans('', '', string.punctuation))
 ```
 
+### Remove any remaining non alphabetic characters
+Some non alphabetic characters are not part of string.punctuation dictionary, we have to remove it separately.
 ```python
 # \n indicating a new line, therefore we replace it with a space
 text = text.replace('\n', ' ')
 ```
-
 ```python
 symbols = ['»', '¿', 'ï']
 
