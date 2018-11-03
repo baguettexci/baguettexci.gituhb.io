@@ -346,8 +346,8 @@ Epoch 30/30
 144245/144245 [==============================] - 1295s 9ms/step - loss: 1.3376
 {% endhighlight %} 
 
+### Pick a random seed sequence
 ```python
-# pick a random seed
 start = numpy.random.randint(0, len(dataX)-1)
 pattern = dataX[start]
 print("Seed:")
@@ -359,8 +359,9 @@ Seed:
 into hers began to tremble. alice looked up, an "
 {% endhighlight %} 
 
+
+### Generate characters
 ```python
-# generate characters
 for i in range(800):
     x = numpy.reshape(pattern, (1, len(pattern), 1))
     x = x / float(n_vocab)
@@ -492,8 +493,8 @@ X = X / float(n_vocab)
 y = np_utils.to_categorical(dataY)
 ```
 
+### Define the LSTM model
 ```python
-# define the LSTM model
 model = Sequential()
 model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
 model.add(Dropout(0.2))
@@ -503,8 +504,8 @@ model.add(Dense(y.shape[1], activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam')
 ```
 
+### Fit the model
 ```python
-# fit the model
 model.fit(X, y, epochs=40, batch_size=64)
 ```
 {% highlight text %}
@@ -590,9 +591,8 @@ Epoch 40/40
 135924/135924 [==============================] - 1226s 9ms/step - loss: 1.1254
 {% endhighlight %} 
 
-
+### Pick a random seed sequence
 ```python
-# pick a random seed
 start = numpy.random.randint(0, len(dataX)-1)
 pattern = dataX[start]
 print("Seed:")
@@ -604,8 +604,8 @@ Seed:
 {% endhighlight %} 
 
 
+### Generate characters
 ```python
-# generate characters
 for i in range(1000):
     x = numpy.reshape(pattern, (1, len(pattern), 1))
     x = x / float(n_vocab)
