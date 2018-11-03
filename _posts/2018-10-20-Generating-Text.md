@@ -134,6 +134,7 @@ print("Total Patterns: ", n_patterns)
 {% highlight text %}
 Total Patterns:  144245
 {% endhighlight %} 
+The total number of patterns is 144245, which makes sense as excluding the first 100 characters, we have one training pattern each to predict the remaining characters.
 
 ### Reshape into the form [samples, time steps, features]
 Transform the list of input sequences into the form expected by an LSTM network.
@@ -153,7 +154,10 @@ y = np_utils.to_categorical(dataY)
 
 ## 3) Training the model
 Develop a LSTM network to learn sequences of characters from Alice in Wonderland and generate new sequences of characters.
-### define the LSTM model
+### Define the LSTM model
+First using the Sequential class with a stacks of layers consisting of a single hidden LSTM layer with 256 memory units, followed by a dropout layer with dropout rate of 20% and a output dense layer with a softmax activation function to output a probability prediction for each of the 46 characters between 0 and 1.
+<br/>
+For the compliation step, since this is really a classification problem with 46 classes and as such is defined as optimizing the log loss(cross entropy), followed by the adam optimization for speed.
 ```python
 model = Sequential()
 model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2])))
@@ -162,8 +166,9 @@ model.add(Dense(y.shape[1], activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam')
 ```
 
+### Fit the model
+Train the model for 20 epochs, an iteration over all samples in the X and y, in batches of 128 patterns.
 ```python
-# fit the model
 model.fit(X, y, epochs=20, batch_size=128)
 ```
 {% highlight text %}
@@ -210,6 +215,7 @@ Epoch 20/20
 {% endhighlight %} 
 
 ### Pick a random seed sequence
+In order to make predictions, first we start off with a seed sequence(a random input pattern) as input.
 ```python
 start = numpy.random.randint(0, len(dataX)-1)
 pattern = dataX[start]
@@ -226,6 +232,7 @@ Seed:
 {% endhighlight %} 
 
 ### Generate characters
+With a seed sequence as input, generate the next character then update the seed sequence to add the generated character on the end and trim off the first character. This process is then repeated for as long as we want to predict new characters (a sequence of 1,000 characters in length, an arbitrary number).
 ```python
 for i in range(1000):
     x = numpy.reshape(pattern, (1, len(pattern), 1))
@@ -253,6 +260,10 @@ to the kooe oa thing the had so tee at hlr hanee an the could  aadin to the kore
 sabe th the korer oa thite the soies tay oo 
 Done.
 {% endhighlight %} 
+Note some observations about the generate text:
+* It generally conforms to the line format observed in the original text.
+* The characters are separated into word-like groups and some groups are actual English words, but most are not.
+* Some of the words in sequence make sense, although most are gibberish.
 
 ## 4) Training on more LSTM layers
 ```python
