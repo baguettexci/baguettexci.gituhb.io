@@ -94,11 +94,11 @@ mbs.shape
 mbs["review_body"][50]
 ```
 {% highlight text %}
-'We loved staying here! We splurged for our 5-year anniversary since we are usually budget travellers. 
-You must wake up early to take good pictures. We woke up around 6:30 am and took great pictures with 
-good lighting and without many people! We had room service which was expensive but quite good. We 
-just split 1 breakfast and it was enough for 2 people. You come here for the infinity pool and to 
-take good pictures, so enjoy!'
+'We loved staying here! We splurged for our 5-year anniversary since we are usually budget 
+travellers. You must wake up early to take good pictures. We woke up around 6:30 am and 
+took great pictures with good lighting and without many people! We had room service which 
+was expensive but quite good. We just split 1 breakfast and it was enough for 2 people. 
+You come here for the infinity pool and to take good pictures, so enjoy!'
 {% endhighlight %} 
 
 ### Change the datetime format
