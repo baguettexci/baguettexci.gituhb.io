@@ -9,17 +9,16 @@ header:
 excerpt: "Web Scraping, NLP"
 mathjax: "true"
 ---
-As lots of unstructured data is available on the internet, the dataset used will be extracted from TripAdvisor. 
+These days lots of unstructured data is available on the internet, the dataset used will be extracted from TripAdvisor. 
 TripAdvisor is a widely known website that shows hotel and restaurant reviews, accommodation bookings and other travel-related content.
-I performed a web scraping on TripAdvisor for the hotel, Marina Bay Sands, using [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) and an example from [furas](https://github.com/furas).
+<br/>
+I performed a web scraping on TripAdvisor for the hotel, Marina Bay Sands, using [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) and an example from [furas](https://github.com/furas). The data would then be contained in a csv.
 
 
 
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/page1.png" alt="">
 
-The data would then be contained in a csv.
-<br/>
 The items to be retrieved are:
 * Content of the reviews
 * Ratings of the reviews
@@ -85,50 +84,22 @@ mbs.head()
 </table>
 
 ```python
-mbs.tail()
+mbs.shape
 ```
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>rating</th>
-      <th>review_body</th>
-      <th>review_date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>16677</th>
-      <td>3</td>
-      <td>I stayed with my partner in May. For the price...</td>
-      <td>June 7, 2010</td>
-    </tr>
-    <tr>
-      <th>16678</th>
-      <td>4</td>
-      <td>Stayed there with my family, spacious, modern ...</td>
-      <td>June 2, 2010</td>
-    </tr>
-    <tr>
-      <th>16679</th>
-      <td>1</td>
-      <td>I would avoid the Marina Bay Sands, at least f...</td>
-      <td>May 14, 2010</td>
-    </tr>
-    <tr>
-      <th>16680</th>
-      <td>1</td>
-      <td>I stayed here for four days for a conference a...</td>
-      <td>May 13, 2010</td>
-    </tr>
-    <tr>
-      <th>16681</th>
-      <td>1</td>
-      <td>I stayed 6 nights at this hotel recently, havi...</td>
-      <td>May 12, 2010</td>
-    </tr>
-  </tbody>
-</table>
+{% highlight text %}
+(16682, 4)
+{% endhighlight %} 
+
+```python
+mbs["review_body"][50]
+```
+{% highlight text %}
+'We loved staying here! We splurged for our 5-year anniversary since we are usually budget travellers. 
+You must wake up early to take good pictures. We woke up around 6:30 am and took great pictures with 
+good lighting and without many people! We had room service which was expensive but quite good. We 
+just split 1 breakfast and it was enough for 2 people. You come here for the infinity pool and to 
+take good pictures, so enjoy!'
+{% endhighlight %} 
 
 ### Change the datetime format
 ```python
