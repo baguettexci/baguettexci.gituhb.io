@@ -1,11 +1,22 @@
 ---
-title: Web Scraping Trip Advisor
+title: Web Scraping TripAdvisor
 date: 2018-10-17
 tags: 
   - Web Scraping
   - NLP
 header:
   image: ""
-excerpt: "Machine Learning, Data Science"
+excerpt: "Web Scraping, NLP"
 mathjax: "true"
 ---
+
+
+
+<img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/page1.png" alt="">
+
+```python
+
+```
+{% highlight text %}
+
+{% endhighlight %} 
