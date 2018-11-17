@@ -584,49 +584,63 @@ def print_topics(topics, feature_names, sorting, topics_per_chunk, n_words):
 ```
 ```python
 # print out the 20 topics:
-print_topics(topics=range(20), feature_names=feature_names, sorting=sorting, topics_per_chunk=7, n_words=10)
+print_topics(topics=range(20), feature_names=feature_names, sorting=sorting, topics_per_chunk=6, n_words=10)
 ```
 {% highlight text %}
-topic 0       topic 1       topic 2       topic 3       topic 4       topic 5       topic 6       
---------      --------      --------      --------      --------      --------      --------      
-room          balcony       kids          spore         hotel         marina        casino        
-pool          quite         even          hv            pool          bay           mall          
-view          doorstep      nice          skylark       singapore     sands         diverse       
-amazing       deluxe        much          simply        bay           singapore     roads         
-great         inner         food          60th          view          stay          hotel         
-night         pricy         chinese       creation      great         time          october       
-check         chill         race          dax           marina        staff         frontdesk     
-staff         room          place         minus         amazing       like          notice        
-stay          bayfront      family        prize         infinity      hotel         luxury        
-us            cctv          come          rises         city          room          ie            
-
-
-topic 7       topic 8       topic 9       topic 10      topic 11      topic 12      topic 13      
---------      --------      --------      --------      --------      --------      --------      
-club          check         room          go            service       birthday      der           
-room          universal     hotel         dollars       dress         mbs           ist           
-suite         studios       would         even          code          stay          die           
-floor         minute        mbs           floor         guest         cake          sehr          
-view          free          size          shangri       industry      us            und           
-lounge        pleasant      service       sing          management    anniversary   das           
-city          cavalli       bed           smokers       looks         thank         ein           
-staff         roberto       stayed        passport      staffs        service       mbs           
-breakfast     things        large         la            cannot        special       laundry       
-pool          different     well          charge        ppl           team          pad           
-
-
-topic 14      topic 15      topic 16      topic 17      topic 18      topic 19      
+topic 0       topic 1       topic 2       topic 3       topic 4       topic 5       
 --------      --------      --------      --------      --------      --------      
-room          hotel         baggages      room          room          service       
-view          pool          coupon        hotel         hotel         offered       
-pool          stay          son           check         also          reward        
-bathroom      like          blazer        us            pool          bond          
-bay           people        capsules      service       food          teh           
-nice          rooms         old           staff         get           theatre       
-hotel         service       christmas     one           area          venue         
-also          room          uncle         would         floor         it            
-infinity      view          arround       told          good          399           
-bath          one           vip           get           tower         jacuzzi       
+room          balcony       kids          spore         hotel         marina        
+pool          quite         even          hv            pool          bay           
+view          doorstep      nice          skylark       singapore     sands         
+amazing       deluxe        much          simply        bay           singapore     
+great         inner         food          60th          view          stay          
+night         pricy         chinese       creation      great         time          
+check         chill         race          dax           marina        staff         
+staff         room          place         minus         amazing       like          
+stay          bayfront      family        prize         infinity      hotel         
+us            cctv          come          rises         city          room          
+
+
+topic 6       topic 7       topic 8       topic 9       topic 10      topic 11      
+--------      --------      --------      --------      --------      --------      
+casino        club          check         room          go            service       
+mall          room          universal     hotel         dollars       dress         
+diverse       suite         studios       would         even          code          
+roads         floor         minute        mbs           floor         guest         
+hotel         view          free          size          shangri       industry      
+october       lounge        pleasant      service       sing          management    
+frontdesk     city          cavalli       bed           smokers       looks         
+notice        staff         roberto       stayed        passport      staffs        
+luxury        breakfast     things        large         la            cannot        
+ie            pool          different     well          charge        ppl           
+
+
+topic 12      topic 13      topic 14      topic 15      topic 16      topic 17      
+--------      --------      --------      --------      --------      --------      
+birthday      der           room          hotel         baggages      room          
+mbs           ist           view          pool          coupon        hotel         
+stay          die           pool          stay          son           check         
+cake          sehr          bathroom      like          blazer        us            
+us            und           bay           people        capsules      service       
+anniversary   das           nice          rooms         old           staff         
+thank         ein           hotel         service       christmas     one           
+service       mbs           also          room          uncle         would         
+special       laundry       infinity      view          arround       told          
+team          pad           bath          one           vip           get           
+
+
+topic 18      topic 19      
+--------      --------      
+room          service       
+hotel         offered       
+also          reward        
+pool          bond          
+food          teh           
+get           theatre       
+area          venue         
+floor         it            
+good          399           
+tower         jacuzzi           
 {% endhighlight %} 
 
 ```python
