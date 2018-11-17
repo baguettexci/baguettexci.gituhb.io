@@ -301,7 +301,7 @@ def preprocessing(data):
     return words
 ```
 ```python
-gram_table(reviews, gram=[1,2,3,4], length=20)
+gram_table(reviews, gram=[1,2,3,4], length=15)
 ```
 <table border="1" class="dataframe">
   <thead>
@@ -482,61 +482,6 @@ gram_table(reviews, gram=[1,2,3,4], length=20)
       <td>239</td>
       <td>swim pool 57th floor</td>
       <td>57</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>floor</td>
-      <td>6867</td>
-      <td>room servic</td>
-      <td>1026</td>
-      <td>night marina bay</td>
-      <td>227</td>
-      <td>best hotel ever stay</td>
-      <td>55</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>would</td>
-      <td>6857</td>
-      <td>view citi</td>
-      <td>1011</td>
-      <td>book club room</td>
-      <td>225</td>
-      <td>roof top swim pool</td>
-      <td>52</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>good</td>
-      <td>6680</td>
-      <td>star hotel</td>
-      <td>961</td>
-      <td>breakfast afternoon tea</td>
-      <td>209</td>
-      <td>time marina bay sand</td>
-      <td>51</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>amaz</td>
-      <td>6587</td>
-      <td>pool area</td>
-      <td>942</td>
-      <td>stay club room</td>
-      <td>204</td>
-      <td>expect 5 star hotel</td>
-      <td>50</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>marina</td>
-      <td>6346</td>
-      <td>amaz view</td>
-      <td>930</td>
-      <td>view infin pool</td>
-      <td>202</td>
-      <td>great view garden bay</td>
-      <td>50</td>
     </tr>
   </tbody>
 </table>
