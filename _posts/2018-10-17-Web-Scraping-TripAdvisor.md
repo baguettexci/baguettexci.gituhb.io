@@ -16,7 +16,6 @@ mathjax: "true"
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/page2.png" alt="">
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/page3.png" alt="">
 ```python
 
 ```
