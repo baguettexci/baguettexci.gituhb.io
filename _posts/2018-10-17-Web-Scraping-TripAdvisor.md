@@ -83,6 +83,7 @@ mbs.head()
   </tbody>
 </table>
 
+### View the shape of the dataframe
 ```python
 mbs.shape
 ```
@@ -90,6 +91,7 @@ mbs.shape
 (16682, 4)
 {% endhighlight %} 
 
+### View a review content
 ```python
 mbs["review_body"][50]
 ```
@@ -150,20 +152,24 @@ mbs.head()
 </table>
 
 ## 2) Exploratory data analysis
-
+### Count of the total ratings
 ```python
 sns.countplot(y=mbs['rating'], color='mediumseagreen', order=[5,4,3,2,1])
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/countplot.png" alt="">
 
+### Count of the no. of reviews in each year
 ```python
 sns.countplot(x = 'year', data=mbs, palette="GnBu_d")
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/countplot2.png" alt="">
 
+### Count of the unique ratings against each year
+Create a new dataframe column by segregating review date by year
 ```python
 mbs['year'] = mbs['review_date'].dt.year
 ```
+Countplot of uniqye ratings per year
 ```python
 plt.figure(figsize=(12,8)) 
 ax= sns.countplot(x='year' ,hue='rating',data=mbs, palette="Set3")
@@ -173,6 +179,7 @@ plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/countplot3.png" alt="">
 
+## 3) Bag-of-words
 ```python
 import string
 from nltk.corpus import stopwords
@@ -226,7 +233,7 @@ plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/barplot.png" alt="">
 
-## 3) N-grams
+## 4) N-grams
 ```python
 from nltk.util import ngrams
 ## Helper Functions
@@ -457,7 +464,7 @@ gram_table(reviews, gram=[1,2,3,4], length=15)
   </tbody>
 </table>
 
-## 4) Topic Modeling with Latent Dirichlet Allocation
+## 5) Topic Modeling with Latent Dirichlet Allocation
 ```python
 from sklearn.decomposition import LatentDirichletAllocation
 lda = LatentDirichletAllocation(n_topics=20, learning_method="batch", max_iter=25, random_state=0)
