@@ -185,6 +185,10 @@ sns.countplot(y=mbs['rating'], color='mediumseagreen', order=[5,4,3,2,1])
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/countplot.png" alt="">
 
+```python
+sns.countplot(x = 'year', data=mbs, palette="GnBu_d")
+```
+<img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/countplot2.png" alt="">
 
 ```python
 mbs['year'] = mbs['review_date'].dt.year
@@ -196,15 +200,457 @@ ax.set(xlabel='Year', ylabel='Count')
 ax.figure.suptitle("Ratings by Year", fontsize = 20)
 plt.show()
 ```
-<img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/countplot2.png" alt="">
+<img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/countplot3.png" alt="">
 
 ```python
+import string
+from nltk.corpus import stopwords
 
+def text_process(text):
+    # Remove any punctuation
+    text = text.translate(str.maketrans('', '', string.punctuation))
+    
+    # Remove any stopwords
+    # NLTK's stopwords assumes words are all lowercased
+    text = [word for word in text.split() if word.lower() not in stopwords.words('english')]
+
+    #Join the characters again to form the string
+    return " ".join(text)
+```
+```python
+reviews = mbs['review_body'].apply(text_process)
+reviews.head()
+```
+{% highlight text %}
+0    stayed one night hereI decide upgrade Club55 a...
+1    Yes it’s huge yes it’s expensive honestly woul...
+2    Iconic hotel good public areas staff amazing l...
+3    stayed 1 night hotel wanted swim rooftop pool ...
+4    helpful staff checkin Room clean bright Given ...
+Name: review_body, dtype: object
+{% endhighlight %} 
+
+```python
+from sklearn.feature_extraction.text import CountVectorizer
+# Create a bag of words feature matrix
+count = CountVectorizer()
+bag_of_words = count.fit_transform(reviews)
 ```
 
+```python
+import collections
+
+word_freq = dict(zip(count.get_feature_names(), np.asarray(bag_of_words.sum(axis=0)).ravel()))
+word_counter = collections.Counter(word_freq)
+word_counter_df = pd.DataFrame(word_counter.most_common(30), columns = ['word', 'freq'])
+
+fig, ax = plt.subplots(figsize=(12, 10))
+#sns.barplot(x="word", y="freq", data=word_counter_df, palette="PuBuGn_d", ax=ax)
+sns.barplot(x="freq", y="word", data=word_counter_df, palette="Blues_d", ax=ax, orient="h")
+plt.grid(linewidth=1, alpha=0.3, color='lightgrey')
+plt.xlabel('Frequency')
+plt.ylabel('Words')
+plt.title('Most Common 30 Words')
+plt.show()
+```
+<img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/barplot.png" alt="">
+
+## 3) N-grams
+```python
+from nltk.util import ngrams
+## Helper Functions
+def get_ngrams(text, n):
+    n_grams = ngrams((text), n)
+    return [ ' '.join(grams) for grams in n_grams]
+```
+```python
+from collections import Counter
+def gramfreq(text,n,num):
+    # Extracting bigrams
+    result = get_ngrams(text,n)
+    # Counting bigrams
+    result_count = Counter(result)
+    # Converting to the result to a data frame
+    df = pd.DataFrame.from_dict(result_count, orient='index')
+    df = df.rename(columns={'index':'words', 0:'frequency'}) # Renaming index column name
+    return df.sort_values(["frequency"],ascending=[0])[:num]
+```
+```python
+def gram_table(text, gram, length):
+    out = pd.DataFrame(index=None)
+    for i in gram:
+        table = pd.DataFrame(gramfreq(preprocessing(text),i,length).reset_index())
+        #table.columns = ["{}-Gram".format(i),"Occurence"]
+        #out = pd.concat([out, table], axis=1)
+        #table = pd.DataFrame(gramfreq(x,i,length).reset_index())
+        table.columns = ["{}-Gram".format(i),"Frequency"]
+        out = pd.concat([out, table], axis=1)
+    return out
+```
+```python
+from nltk.tokenize import word_tokenize
+from nltk import PorterStemmer
+stop_words = set(stopwords.words('english'))
+def preprocessing(data):
+    txt = data.str.lower().str.cat(sep=' ') #1
+    #txt = txt.translate(str.maketrans('', '', string.punctuation))
+    words = word_tokenize(txt)
+    words = [w for w in words if not w in stop_words] #3
+    porter = PorterStemmer()
+    words = [porter.stem(word) for word in words]
+    return words
+```
+```python
+gram_table(reviews, gram=[1,2,3,4], length=20)
+```
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1-Gram</th>
+      <th>Frequency</th>
+      <th>2-Gram</th>
+      <th>Frequency</th>
+      <th>3-Gram</th>
+      <th>Frequency</th>
+      <th>4-Gram</th>
+      <th>Frequency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>hotel</td>
+      <td>31203</td>
+      <td>marina bay</td>
+      <td>5649</td>
+      <td>marina bay sand</td>
+      <td>4216</td>
+      <td>stay marina bay sand</td>
+      <td>1057</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>room</td>
+      <td>30514</td>
+      <td>infin pool</td>
+      <td>5315</td>
+      <td>stay marina bay</td>
+      <td>1167</td>
+      <td>marina bay sand hotel</td>
+      <td>474</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>pool</td>
+      <td>21737</td>
+      <td>bay sand</td>
+      <td>4327</td>
+      <td>5 star hotel</td>
+      <td>664</td>
+      <td>infin pool 57th floor</td>
+      <td>211</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>stay</td>
+      <td>18657</td>
+      <td>garden bay</td>
+      <td>2066</td>
+      <td>citi view room</td>
+      <td>508</td>
+      <td>night marina bay sand</td>
+      <td>203</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>view</td>
+      <td>16684</td>
+      <td>citi view</td>
+      <td>1959</td>
+      <td>stay one night</td>
+      <td>491</td>
+      <td>marina bay sand one</td>
+      <td>118</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>servic</td>
+      <td>9289</td>
+      <td>club room</td>
+      <td>1801</td>
+      <td>bay sand hotel</td>
+      <td>485</td>
+      <td>visit marina bay sand</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>check</td>
+      <td>9209</td>
+      <td>swim pool</td>
+      <td>1753</td>
+      <td>view garden bay</td>
+      <td>434</td>
+      <td>singapor marina bay sand</td>
+      <td>88</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>singapor</td>
+      <td>9081</td>
+      <td>stay hotel</td>
+      <td>1651</td>
+      <td>pool 57th floor</td>
+      <td>414</td>
+      <td>club room citi view</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>night</td>
+      <td>9021</td>
+      <td>view room</td>
+      <td>1462</td>
+      <td>room citi view</td>
+      <td>356</td>
+      <td>marina bay sand singapor</td>
+      <td>84</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>bay</td>
+      <td>9000</td>
+      <td>one night</td>
+      <td>1421</td>
+      <td>ku de ta</td>
+      <td>342</td>
+      <td>experi marina bay sand</td>
+      <td>76</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>one</td>
+      <td>8930</td>
+      <td>5 star</td>
+      <td>1259</td>
+      <td>stay 2 night</td>
+      <td>283</td>
+      <td>marina bay sand stay</td>
+      <td>73</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>great</td>
+      <td>8406</td>
+      <td>stay marina</td>
+      <td>1208</td>
+      <td>infin pool amaz</td>
+      <td>273</td>
+      <td>hotel marina bay sand</td>
+      <td>69</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>time</td>
+      <td>8078</td>
+      <td>57th floor</td>
+      <td>1188</td>
+      <td>roof top pool</td>
+      <td>259</td>
+      <td>roof top infin pool</td>
+      <td>63</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>staff</td>
+      <td>7921</td>
+      <td>shop mall</td>
+      <td>1131</td>
+      <td>rooftop infin pool</td>
+      <td>254</td>
+      <td>room face garden bay</td>
+      <td>63</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>get</td>
+      <td>7783</td>
+      <td>great view</td>
+      <td>1125</td>
+      <td>infin pool 57th</td>
+      <td>239</td>
+      <td>swim pool 57th floor</td>
+      <td>57</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>floor</td>
+      <td>6867</td>
+      <td>room servic</td>
+      <td>1026</td>
+      <td>night marina bay</td>
+      <td>227</td>
+      <td>best hotel ever stay</td>
+      <td>55</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>would</td>
+      <td>6857</td>
+      <td>view citi</td>
+      <td>1011</td>
+      <td>book club room</td>
+      <td>225</td>
+      <td>roof top swim pool</td>
+      <td>52</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>good</td>
+      <td>6680</td>
+      <td>star hotel</td>
+      <td>961</td>
+      <td>breakfast afternoon tea</td>
+      <td>209</td>
+      <td>time marina bay sand</td>
+      <td>51</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>amaz</td>
+      <td>6587</td>
+      <td>pool area</td>
+      <td>942</td>
+      <td>stay club room</td>
+      <td>204</td>
+      <td>expect 5 star hotel</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>marina</td>
+      <td>6346</td>
+      <td>amaz view</td>
+      <td>930</td>
+      <td>view infin pool</td>
+      <td>202</td>
+      <td>great view garden bay</td>
+      <td>50</td>
+    </tr>
+  </tbody>
+</table>
+
+## 4) Topic Modeling with Latent Dirichlet Allocation
+```python
+from sklearn.decomposition import LatentDirichletAllocation
+lda = LatentDirichletAllocation(n_topics=20, learning_method="batch", max_iter=25, random_state=0)
+# Build the model and transform the data in one step
+# Computing transform takes some time, and we can save time by doing both at once.
+document_topics = lda.fit_transform(bag_of_words)
+```
+```python
+lda.components_.shape
+```
+{% highlight text %}
+(20, 51339)
+{% endhighlight %} 
+
+```python
+# for each topic (a row in the components_), sort the features (ascending).
+# Invert rows with [:, ::-1] to make sorting descending
+sorting = np.argsort(lda.components_, axis=1)[:, ::-1]
+# Get the feature names from the vectorizer:
+feature_names = np.array(count.get_feature_names())
+```
+```python
+def print_topics(topics, feature_names, sorting, topics_per_chunk, n_words):
+    for i in range(0, len(topics), topics_per_chunk):
+        # for each chunk:
+        these_topics = topics[i: i + topics_per_chunk]
+        # maybe we have less than topics_per_chunk left
+        len_this_chunk = len(these_topics)
+        # print topic headers
+        print(("topic {:<8}" * len_this_chunk).format(*these_topics))
+        print(("-------- {0:<5}" * len_this_chunk).format(""))
+        # print top n_words frequent words
+        for i in range(n_words):
+            try:
+                print(("{:<14}" * len_this_chunk).format(
+                    *feature_names[sorting[these_topics, i]]))
+            except:
+                pass
+        print("\n")
+```
+```python
+# print out the 20 topics:
+print_topics(topics=range(20), feature_names=feature_names, sorting=sorting, topics_per_chunk=7, n_words=10)
+```
+{% highlight text %}
+topic 0       topic 1       topic 2       topic 3       topic 4       topic 5       topic 6       
+--------      --------      --------      --------      --------      --------      --------      
+room          balcony       kids          spore         hotel         marina        casino        
+pool          quite         even          hv            pool          bay           mall          
+view          doorstep      nice          skylark       singapore     sands         diverse       
+amazing       deluxe        much          simply        bay           singapore     roads         
+great         inner         food          60th          view          stay          hotel         
+night         pricy         chinese       creation      great         time          october       
+check         chill         race          dax           marina        staff         frontdesk     
+staff         room          place         minus         amazing       like          notice        
+stay          bayfront      family        prize         infinity      hotel         luxury        
+us            cctv          come          rises         city          room          ie            
 
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/.png" alt="">
+topic 7       topic 8       topic 9       topic 10      topic 11      topic 12      topic 13      
+--------      --------      --------      --------      --------      --------      --------      
+club          check         room          go            service       birthday      der           
+room          universal     hotel         dollars       dress         mbs           ist           
+suite         studios       would         even          code          stay          die           
+floor         minute        mbs           floor         guest         cake          sehr          
+view          free          size          shangri       industry      us            und           
+lounge        pleasant      service       sing          management    anniversary   das           
+city          cavalli       bed           smokers       looks         thank         ein           
+staff         roberto       stayed        passport      staffs        service       mbs           
+breakfast     things        large         la            cannot        special       laundry       
+pool          different     well          charge        ppl           team          pad           
+
+
+topic 14      topic 15      topic 16      topic 17      topic 18      topic 19      
+--------      --------      --------      --------      --------      --------      
+room          hotel         baggages      room          room          service       
+view          pool          coupon        hotel         hotel         offered       
+pool          stay          son           check         also          reward        
+bathroom      like          blazer        us            pool          bond          
+bay           people        capsules      service       food          teh           
+nice          rooms         old           staff         get           theatre       
+hotel         service       christmas     one           area          venue         
+also          room          uncle         would         floor         it            
+infinity      view          arround       told          good          399           
+bath          one           vip           get           tower         jacuzzi       
+{% endhighlight %} 
+
+```python
+fig, ax = plt.subplots(1, 2, figsize=(16, 8))
+topic_names = ["{:>2} ".format(i) + " ".join(words) for i, words in enumerate(feature_names[sorting[:, :2]])]
+
+# two column bar chart:
+for col in [0, 1]:
+    start = col * 10
+    end = (col + 1) * 10
+    ax[col].barh(np.arange(10), np.sum(document_topics, axis=0)[start:end])
+    ax[col].set_yticks(np.arange(10))
+    ax[col].set_yticklabels(topic_names[start:end], ha="left", va="top")
+    ax[col].invert_yaxis()
+    ax[col].set_xlim(0, 5000)
+    yax = ax[col].get_yaxis()
+    yax.set_tick_params(pad=130)
+plt.tight_layout()
+```
+<img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/chart.png" alt="">
+
+
+
+
 ```python
 
 ```
