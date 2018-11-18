@@ -600,6 +600,7 @@ ax.set_xticklabels(names)
 plt.grid(linewidth=1, alpha=0.3, color='lightgrey')
 plt.show()
 ```
+<img src="{{ site.url }}{{ site.baseurl }}/images/Boston House Price/boxplot3.png" alt="">
 
 ## 3c) Neural Network
 ### Import libraries
