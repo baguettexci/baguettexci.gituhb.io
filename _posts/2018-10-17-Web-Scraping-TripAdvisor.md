@@ -157,6 +157,7 @@ mbs.head()
 sns.countplot(y=mbs['rating'], color='mediumseagreen', order=[5,4,3,2,1])
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/countplot.png" alt="">
+<br/>
 Indeed the distribution of the total ratings is similar to the one on the TripAdvisor website.
 
 ### Count of the no. of reviews in each year
@@ -164,6 +165,7 @@ Indeed the distribution of the total ratings is similar to the one on the TripAd
 sns.countplot(x = 'year', data=mbs, palette="GnBu_d")
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/countplot2.png" alt="">
+<br/>
 Noting that the difference seen in 2010 is only because Marina Bay Sands had a soft opening on 27 April 2010 and had it's grand opening on 17 February 2011.
 
 ### Count of the unique ratings against each year
