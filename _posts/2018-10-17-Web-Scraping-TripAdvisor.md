@@ -188,6 +188,7 @@ plt.show()
 * Positive ratings starts to experience a decline from year 2017 following it's peak in year 2016.
 
 ## 3) Bag-of-words
+### Define a function for processing the text
 ```python
 import string
 from nltk.corpus import stopwords
@@ -203,6 +204,8 @@ def text_process(text):
     #Join the characters again to form the string
     return " ".join(text)
 ```
+
+### Apply the function on the text
 ```python
 reviews = mbs['review_body'].apply(text_process)
 reviews.head()
@@ -216,6 +219,7 @@ reviews.head()
 Name: review_body, dtype: object
 {% endhighlight %} 
 
+### Creating the bag of words
 ```python
 from sklearn.feature_extraction.text import CountVectorizer
 # Create a bag of words feature matrix
@@ -223,6 +227,7 @@ count = CountVectorizer()
 bag_of_words = count.fit_transform(reviews)
 ```
 
+### Plot the 30 most common words
 ```python
 import collections
 
@@ -240,6 +245,7 @@ plt.title('Most Common 30 Words')
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/barplot.png" alt="">
+The vocabulary contains singular and plural versions of some words, such as "room" and "rooms". The vocabulary also includes words like "stay" and "stayed" which are different verbs forms and a noun relating to the verb "to stay". Having such issues is disadvantageous for building a model that generalizes well. It could be overcome by methods of stemming, which is to drop common suffixes and identifying all the words that have the same word stem. Or by lemmatization, which instead uses a dictionary of known word forms and the role of the word in the sentence is taken into account.
 
 ## 4) N-grams
 ```python
