@@ -489,6 +489,7 @@ Through the n-grams method we could see that the content of most reviews mention
 * "garden bay" which is a nature park, Gardens by the Bay.
 
 ## 5) Topic Modeling with Latent Dirichlet Allocation
+### Create topic modeling
 ```python
 from sklearn.decomposition import LatentDirichletAllocation
 lda = LatentDirichletAllocation(n_topics=20, learning_method="batch", max_iter=25, random_state=0)
@@ -496,6 +497,7 @@ lda = LatentDirichletAllocation(n_topics=20, learning_method="batch", max_iter=2
 # Computing transform takes some time, and we can save time by doing both at once.
 document_topics = lda.fit_transform(bag_of_words)
 ```
+
 ```python
 lda.components_.shape
 ```
@@ -510,6 +512,7 @@ sorting = np.argsort(lda.components_, axis=1)[:, ::-1]
 # Get the feature names from the vectorizer:
 feature_names = np.array(count.get_feature_names())
 ```
+### Create function to view the most important words for each topics
 ```python
 def print_topics(topics, feature_names, sorting, topics_per_chunk, n_words):
     for i in range(0, len(topics), topics_per_chunk):
@@ -529,8 +532,8 @@ def print_topics(topics, feature_names, sorting, topics_per_chunk, n_words):
                 pass
         print("\n")
 ```
+### generate out the 20 topics
 ```python
-# print out the 20 topics:
 print_topics(topics=range(20), feature_names=feature_names, sorting=sorting, topics_per_chunk=6, n_words=10)
 ```
 {% highlight text %}
@@ -590,6 +593,7 @@ good          399
 tower         jacuzzi           
 {% endhighlight %} 
 
+### Plot topics with weightage
 ```python
 fig, ax = plt.subplots(1, 2, figsize=(16, 8))
 topic_names = ["{:>2} ".format(i) + " ".join(words) for i, words in enumerate(feature_names[sorting[:, :2]])]
