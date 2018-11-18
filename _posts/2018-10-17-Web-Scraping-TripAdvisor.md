@@ -245,9 +245,13 @@ plt.title('Most Common 30 Words')
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/barplot.png" alt="">
-The vocabulary contains singular and plural versions of some words, such as "room" and "rooms". The vocabulary also includes words like "stay" and "stayed" which are different verbs forms and a noun relating to the verb "to stay". Having such issues is disadvantageous for building a model that generalizes well. It could be overcome by methods of stemming, which is to drop common suffixes and identifying all the words that have the same word stem. Or by lemmatization, which instead uses a dictionary of known word forms and the role of the word in the sentence is taken into account.
+The vocabulary contains singular and plural versions of some words, such as "room" and "rooms". The vocabulary also includes words like "stay" and "stayed" which are different verbs forms and a noun relating to the verb "to stay". Having such issues is disadvantageous for building a model that generalizes well. 
+<br/>
+It could be overcome by methods of stemming, which is to drop common suffixes and identifying all the words that have the same word stem. Or by lemmatization, which instead uses a dictionary of known word forms and the role of the word in the sentence is taken into account.
 
 ## 4) N-grams
+One of the main disadvantages of using a bag-of-words representation is that word order is completely discarded. There is a way of capturing context when using bag-of-words representation, by using the method of n-grams. It will not only consider the counts of single tokens, but also the counts of pairs or triplets of tokens that appear next to each other.
+### Create n-grams functions
 ```python
 from nltk.util import ngrams
 ## Helper Functions
@@ -267,31 +271,31 @@ def gramfreq(text,n,num):
     df = df.rename(columns={'index':'words', 0:'frequency'}) # Renaming index column name
     return df.sort_values(["frequency"],ascending=[0])[:num]
 ```
+### Display the results of n-grams on a table
 ```python
 def gram_table(text, gram, length):
     out = pd.DataFrame(index=None)
     for i in gram:
         table = pd.DataFrame(gramfreq(preprocessing(text),i,length).reset_index())
-        #table.columns = ["{}-Gram".format(i),"Occurence"]
-        #out = pd.concat([out, table], axis=1)
-        #table = pd.DataFrame(gramfreq(x,i,length).reset_index())
         table.columns = ["{}-Gram".format(i),"Frequency"]
         out = pd.concat([out, table], axis=1)
     return out
 ```
+### Text preprocessing with stemming
 ```python
 from nltk.tokenize import word_tokenize
 from nltk import PorterStemmer
 stop_words = set(stopwords.words('english'))
 def preprocessing(data):
-    txt = data.str.lower().str.cat(sep=' ') #1
-    #txt = txt.translate(str.maketrans('', '', string.punctuation))
+    txt = data.str.lower().str.cat(sep=' ')
     words = word_tokenize(txt)
-    words = [w for w in words if not w in stop_words] #3
+    words = [w for w in words if not w in stop_words]
     porter = PorterStemmer()
     words = [porter.stem(word) for word in words]
     return words
 ```
+### Execute the n-grams function
+Generating 4-grams(unigrams, bigrams, trigrams and quadgrams)
 ```python
 gram_table(reviews, gram=[1,2,3,4], length=15)
 ```
@@ -477,6 +481,12 @@ gram_table(reviews, gram=[1,2,3,4], length=15)
     </tr>
   </tbody>
 </table>
+Through the n-grams method we could see that the content of most reviews mentioned:
+* "infinity pool" and through the 3-grams and 4-grams sequences, could conclude that the pool is on the 57th floor rooftop.
+* "city view" and through the 3-grams and 4-grams sequences, could draw the conclusion that it was the club room with city view.
+* "shop mall" through the 2-grams sequences, which is the shopping mall, The Shoppes at Marina Bay Sands.
+* "ku de ta" which is the name of the formerly known bar in Marina Bay Sands.
+* "garden bay" which is a nature park, Gardens by the Bay.
 
 ## 5) Topic Modeling with Latent Dirichlet Allocation
 ```python
