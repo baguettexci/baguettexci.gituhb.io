@@ -598,6 +598,7 @@ tower         jacuzzi
 {% endhighlight %} 
 
 ### Plot topics with weightage
+Another way to inspect the topics by seeing how much weight each topic gets overall, by summing the document_topics over all reviews. Here, each topic is named by the two most common words.
 ```python
 fig, ax = plt.subplots(1, 2, figsize=(16, 8))
 topic_names = ["{:>2} ".format(i) + " ".join(words) for i, words in enumerate(feature_names[sorting[:, :2]])]
