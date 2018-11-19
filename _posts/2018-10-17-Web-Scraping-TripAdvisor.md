@@ -490,6 +490,7 @@ Through the n-grams method we could see that the content of most reviews mention
 * "garden bay" which is a nature park, Gardens by the Bay.
 
 ## 5) Topic Modeling with Latent Dirichlet Allocation
+Topic modeling is a type of statistical model for discovering the abstract "topics" that occur in a collection of documents and is frequently used for discovery of hidden semantic structures in a text body. Latent Dirichlet Allocation is an example of topic modeling and it allows sets of observations to be explained by unobserved groups, by finding groups of words (the topics) that appear together frequently.
 ### Create topic modeling
 ```python
 from sklearn.decomposition import LatentDirichletAllocation
@@ -498,7 +499,8 @@ lda = LatentDirichletAllocation(n_topics=20, learning_method="batch", max_iter=2
 # Computing transform takes some time, and we can save time by doing both at once.
 document_topics = lda.fit_transform(bag_of_words)
 ```
-
+### View the shape of the components in LDA
+The shape of the components is in the form of (n_topics, n_words)
 ```python
 lda.components_.shape
 ```
@@ -506,6 +508,7 @@ lda.components_.shape
 (20, 51339)
 {% endhighlight %} 
 
+### Create function to view the most important words for each topics
 ```python
 # for each topic (a row in the components_), sort the features (ascending).
 # Invert rows with [:, ::-1] to make sorting descending
@@ -513,7 +516,7 @@ sorting = np.argsort(lda.components_, axis=1)[:, ::-1]
 # Get the feature names from the vectorizer:
 feature_names = np.array(count.get_feature_names())
 ```
-### Create function to view the most important words for each topics
+This is a function adapted from the [mglearn](https://github.com/amueller/mglearn) library, for the book "Introduction to Machine Learning with Python".
 ```python
 def print_topics(topics, feature_names, sorting, topics_per_chunk, n_words):
     for i in range(0, len(topics), topics_per_chunk):
