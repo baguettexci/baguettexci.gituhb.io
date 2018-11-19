@@ -2655,6 +2655,7 @@ Epoch 100/100
 50/50 [==============================] - 1s 21ms/step
 Standardized: -24.68 (28.74) MSE
 {% endhighlight %} 
+The result reports that the mean squared error is 24.68 and the standard deviation is 28.74 from the average across all 10 folds of the cross validation evaluation.
 
 ## 4) Tuning
 ### K-Nearest Neighbors
