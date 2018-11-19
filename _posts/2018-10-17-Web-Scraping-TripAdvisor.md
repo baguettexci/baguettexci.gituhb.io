@@ -536,7 +536,7 @@ def print_topics(topics, feature_names, sorting, topics_per_chunk, n_words):
                 pass
         print("\n")
 ```
-### generate out the 20 topics
+### Generate out the 20 topics
 ```python
 print_topics(topics=range(20), feature_names=feature_names, sorting=sorting, topics_per_chunk=6, n_words=10)
 ```
@@ -596,6 +596,9 @@ floor         it
 good          399           
 tower         jacuzzi           
 {% endhighlight %} 
+* Quite a few topics seems to capture the hotel's facilities and services.
+* Topic 12 seems to be on special occasion.
+* Topic 13 seems to capture some very peculiar words.
 
 ### Plot topics with weightage
 Another way to inspect the topics by seeing how much weight each topic gets overall, by summing the document_topics over all reviews. Here, each topic is named by the two most common words.
