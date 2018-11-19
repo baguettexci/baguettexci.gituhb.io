@@ -440,7 +440,7 @@ dataset.describe()
     </tr>
   </tbody>
 </table>
-There seems to be some differencing of scale.
+There seems to be some differing of scales.
 
 ### View the correlation between the variables on a heatmap
 ```python
@@ -493,6 +493,9 @@ from sklearn.svm import SVR
 ```
 
 ### Modeling
+Selecting a suite of different algorithms capable of working on classification problem.
+* **Linear Algorithms:** Logistic Regression(LR), Ridge Regression(Ridge), Lasso Regression(LASSO) and ElasticNet(EN).
+* **Nonlinear Algorithms:** Classification and Regression Trees(CART), Support Vector Regression(SVR), and k-Nearest Neighbors(KNN).
 ```python
 models = []
 models.append(('LR', LinearRegression()))
@@ -510,7 +513,7 @@ num_folds = 10
 seed = 7
 scoring = 'neg_mean_squared_error'
 ```
-Displaying the mean and standard deviation of accuracy for each algorithm.
+Displaying the mean and standard deviation of MSE for each algorithm.
 ```python
 results = []
 names = []
@@ -532,7 +535,7 @@ CART: -22.241501 (11.690218)
 SVR: -85.946141 (17.581121)
 {% endhighlight %} 
 
-Viewing the distribution values on a boxplot
+### Viewing the distribution values on a boxplot
 ```python
 fig = plt.figure()
 fig.suptitle('Algorithm Comparison')
@@ -543,6 +546,7 @@ plt.grid(linewidth=1, alpha=0.3, color='lightgrey')
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Boston House Price/boxplot.png" alt="">
+Seems like CART has the lowest MSE, followed by LR. Differing scales of the data might be having an effect on the accuracy of the algorithms such as SVR and KNN.
 
 ### Feature scaling
 Suspecting that varied distributions of the features may be impacting the skill of some of the algorithms, we perform a data normalization, such that each attribute has a mean value of 0 and a standard deviation of 1.
@@ -575,7 +579,7 @@ ScaledCART: -25.209998 (20.689530)
 ScaledSVR: -32.657487 (15.173412)
 {% endhighlight %} 
 
-Viewing the distribution values on a boxplot
+### Viewing the distribution values on a boxplot
 ```python
 fig = plt.figure()
 fig = plt.figure(figsize=(8.5,4))
@@ -587,8 +591,15 @@ plt.grid(linewidth=1, alpha=0.3, color='lightgrey')
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Boston House Price/boxplot2.png" alt="">
+Seems like scaling did have an effect on SVR and KNN. From the boxplot, KNN has a tight distribution of error and also has the lowest score.
 
 ## 3b) Ensemble Methods
+Looking into ensemble methods could improve the performance of algorithms on this problem. We will evaluate four different ensemble machine learning algorithms.
+* **Boosting Methods:** AdaBoost(AB) and Gradient Boosting(GBM).
+* **Bagging Methods:** Random Forests(RF) and Extra Trees(ET).
+<br/>
+
+Using the same settings, a 10-fold cross validation and pipelines that standardize the training data for each fold.
 ### Import libraries
 ```python
 from sklearn.ensemble import RandomForestRegressor
@@ -631,9 +642,10 @@ plt.grid(linewidth=1, alpha=0.3, color='lightgrey')
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Boston House Price/boxplot3.png" alt="">
+The results generate better scores than the linear and nonlinear algorithms in previous part. Gradient Boosting has the lowest score and better distribution of error.
 
 ## 3c) Neural Network
-Create a neural network model for the regression problem.
+Looking into neural network to see whether it can improve the performance of algorithms on the regression problem.
 ### Import libraries
 ```python
 from keras.models import Sequential
@@ -2688,7 +2700,10 @@ Standardized: -24.68 (28.74) MSE
 The result reports that the mean squared error is 24.68 and the standard deviation is 28.74 from the average across all 10 folds of the cross validation evaluation.
 
 ## 4) Tuning
+Likely that configuration beyond the default may yield even more accurate models, we investigate tuning the parameters for the two algorithms, KNN and GBM.
+
 ### K-Nearest Neighbors
+Using a grid search to try a set of different numbers of neighbors and see if it can improve the score. Trials of odd k values from 1 to 21, an arbitary range(Noting that default value of neighbors in KNN is 7). Each k value is then evaluated using 10-fold cross validation on a normalized training dataset.
 ```python
 scaler = StandardScaler().fit(X_train)
 rescaledX = scaler.transform(X_train)
@@ -2719,8 +2734,10 @@ Best: -21.429139 using {'n_neighbors': 3}
 -26.774560 (11.713787) with: {'n_neighbors': 19}
 -27.920233 (12.320972) with: {'n_neighbors': 21}
 {% endhighlight %} 
+The best k neighbor value seems to be 3, with a mean squared error of 21.42.
 
 ### Gradient Boosting Machine
+Define a parameter grid with range of values from 50 to 400 in increments of 50 (Noting that the default number of boosting stages in GBM is 100). Each boosting stage is then evaluated using 10-fold cross validation on a normalized training dataset. Often, the larger the number of boosting stages, the better the performance but the longer the training time.
 ```python
 scaler = StandardScaler().fit(X_train)
 rescaledX = scaler.transform(X_train)
@@ -2747,8 +2764,10 @@ Best: -8.861772 using {'n_estimators': 150}
 -9.019737 (3.874562) with: {'n_estimators': 350}
 -9.051707 (3.886895) with: {'n_estimators': 400}
 {% endhighlight %} 
+The best configuration was n_estimators of 150, resulting in a mean squared error of 8.86, the best so far.
 
 ## 5) Evaluation
+Using the gradient boosting model and evaluate it on the hold-out validation dataset. Including normalizing the training dataset before training and also scaling the inputs for the validation dataset and then generate predictions.
 ```python
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error
@@ -2766,10 +2785,9 @@ print("2) R squared: {0:.4f}\n".format(r2_score(Y_validation, predictions)))
 ```
 {% highlight text %}
 1) MSE: 9.2771
-
 2) R squared: 0.8815
 {% endhighlight %} 
-
+The results shows that the estimated mean squared error is 9.27, which is quite close to the tuned model. The R squared value indicates a high goodness of fit.
 
 
 
