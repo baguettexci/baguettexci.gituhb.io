@@ -496,6 +496,7 @@ from sklearn.svm import SVR
 Selecting a suite of different algorithms capable of working on classification problem.
 * **Linear Algorithms:** Logistic Regression(LR), Ridge Regression(Ridge), Lasso Regression(LASSO) and ElasticNet(EN).
 * **Nonlinear Algorithms:** Classification and Regression Trees(CART), Support Vector Regression(SVR), and k-Nearest Neighbors(KNN).
+
 ```python
 models = []
 models.append(('LR', LinearRegression()))
@@ -546,6 +547,7 @@ plt.grid(linewidth=1, alpha=0.3, color='lightgrey')
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Boston House Price/boxplot.png" alt="">
+<br/>
 Seems like CART has the lowest MSE, followed by LR. Differing scales of the data might be having an effect on the accuracy of the algorithms such as SVR and KNN.
 
 ### Feature scaling
@@ -591,6 +593,7 @@ plt.grid(linewidth=1, alpha=0.3, color='lightgrey')
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Boston House Price/boxplot2.png" alt="">
+<br/>
 Seems like scaling did have an effect on SVR and KNN. From the boxplot, KNN has a tight distribution of error and also has the lowest score.
 
 ## 3b) Ensemble Methods
@@ -642,6 +645,7 @@ plt.grid(linewidth=1, alpha=0.3, color='lightgrey')
 plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Boston House Price/boxplot3.png" alt="">
+<br/>
 The results generate better scores than the linear and nonlinear algorithms in previous part. Gradient Boosting has the lowest score and better distribution of error.
 
 ## 3c) Neural Network
