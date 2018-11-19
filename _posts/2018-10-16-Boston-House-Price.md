@@ -12,6 +12,7 @@ mathjax: "true"
 
 Boston house price dataset describes properties of houses in Boston suburbs and is concerned with modeling the price of houses in those suburbs in thousands of dollars. 
 <br/>
+<br/>
 The input variables that describle the properties of a given Boston suburb are:
 1. CRIM — per capita crime rate by town.
 2. ZN — proportion of residential land zoned for lots over 25,000 sq.ft.
@@ -28,6 +29,7 @@ The input variables that describle the properties of a given Boston suburb are:
 13. LSTAT — % lower status of the population.
 14. MEDV — median value of owner-occupied homes in $1000s.
 <br/>
+
 The aim is to predict median value of a given house in the area, which is the target variable (MEDV).
 
 ## 1) Setup
