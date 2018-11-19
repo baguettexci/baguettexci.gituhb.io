@@ -603,15 +603,20 @@ plt.show()
 <img src="{{ site.url }}{{ site.baseurl }}/images/Boston House Price/boxplot3.png" alt="">
 
 ## 3c) Neural Network
+Create a neural network model for the regression problem.
 ### Import libraries
 ```python
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.wrappers.scikit_learn import KerasRegressor
 ```
+
 ### Modeling
+Create the Keras model and evaluate with scikit-learn by using a wrapper object provided by the Keras library. The Keras wrapper class require a function as an argument and this function is responsible for creating the neural network model to be evaluated. 
+<br/>
+The model has two hidden layers, each with 32 units(no. of neurons) and 13 input atttributes. Rectifier activation function is used for the hidden layer and the network ends with a single unit with no activation function as this is a regression problem. The model will be compiled with the Adam optimization metric and a mean squared error loss function.
 ```python
-def baseline_model():
+def keras_model():
     # create model
     model = Sequential()
     model.add(Dense(32, input_dim=13, kernel_initializer='normal', activation='relu'))
@@ -621,11 +626,12 @@ def baseline_model():
     model.compile(loss='mean_squared_error', optimizer='adam')
     return model
 ```
-Evaluate the model with standardized dataset
+### Evaluate the model with standardized dataset
+Using scikit-learn's Pipeline to perform the standardization and the Keras wrapper object, KerasRegressor as a regression estimator with parameters 100 no. of epochs and batch size of 5.
 ```python
 estimators = []
 estimators.append(('standardize', StandardScaler()))
-estimators.append(('mlp', KerasRegressor(build_fn=baseline_model, epochs=100, batch_size=5, verbose=1)))
+estimators.append(('mlp', KerasRegressor(build_fn=keras_model, epochs=100, batch_size=5, verbose=1)))
 pipeline = Pipeline(estimators)
 kfold = KFold(n_splits=10, random_state=seed)
 results = cross_val_score(pipeline, X, Y, cv=kfold)
