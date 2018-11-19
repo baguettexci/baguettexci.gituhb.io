@@ -188,6 +188,7 @@ plt.show()
 * Positive ratings starts to experience a decline from year 2017 following it's peak in year 2016.
 
 ## 3) Bag-of-words
+Create a set of features indicating the number of times a text contains a particular word, using a bag of words model. Bag of words models output a feature for every unique word in text data, with each feature containing a count of occurrences in observations. The output would results in a matrix that can contain thousands of features and it would likely be a sparse matrix as most words do not occur in most observations.
 ### Define a function for processing the text
 ```python
 import string
