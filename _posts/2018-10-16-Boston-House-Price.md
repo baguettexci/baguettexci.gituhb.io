@@ -251,6 +251,7 @@ dataset.shape
 {% highlight text %}
 (506, 14)
 {% endhighlight %} 
+This confirms that the data has 14 attributes and 506 instances to work with.
 
 ### View the data types of the dataset
 ```python
@@ -273,6 +274,7 @@ LSTAT      float64
 MEDV       float64
 dtype: object
 {% endhighlight %} 
+Most of the attributes are numeric, mostly real values (float) and some have been interpreted as integers (int).
 
 ### View the description of the dataset
 ```python
@@ -438,6 +440,7 @@ dataset.describe()
     </tr>
   </tbody>
 </table>
+There seems to be some differencing of scale.
 
 ### View the correlation between the variables on a heatmap
 ```python
@@ -445,7 +448,13 @@ plt.figure(figsize=(20,10))
 sns.heatmap(dataset.corr(), annot=True) 
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Boston House Price/heatmap.png" alt="">
-Strong correlation between 
+Many attributes have a strong correlation:
+* INDUS and NOX (0.76)
+* INDUS and DIS (-0.71)
+* INDUS and TAX (0.72)
+* NOX and AGE (0.73)
+* NOX and DIS (-0.77)
+* LSTAT and target variable MEDV (-0.74)
 
 ### View a pairplot on the first 7 features
 ```python
