@@ -1,6 +1,6 @@
 ---
-title: Boston House Price
-date: 2018-10-22
+title: Predicting Google Stock Price
+date: 2018-10-24
 tags: 
   - machine learning
   - data science
@@ -17,7 +17,6 @@ mathjax: "true"
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 ```
 
 ### Load & Viewing the Data
