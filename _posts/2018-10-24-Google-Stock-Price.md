@@ -10,7 +10,12 @@ excerpt: "Machine Learning, Data Science"
 mathjax: "true"
 ---
 
+Predicting some the upward and downward trends
+Predicting the open google stock price, that is the stock price at the beginning of the financial day
+It performs well better than the traditional ARIMA model
 
+
+Train the model to be able to predict the stock price at time t+1, based on the previous 60 stock prices 
 ## 1) Setup
 ### Load packages
 ```python
