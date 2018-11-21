@@ -21,7 +21,7 @@ The variables in the dataset are:
 We will be predicting the upward and downward trends of the open google stock price, that is the stock price at the beginning of the financial day. Noting that the market is closed on weekends and public holidays.
 
 
-
+ dealing with a Regression problem because we predict a continuous outcome (the Google Stock Price).
 It performs well better than the traditional ARIMA model
 Train the model to be able to predict the stock price at time t+1, based on the previous 60 stock prices 
 
@@ -186,13 +186,11 @@ X_train, y_train = np.array(X_train), np.array(y_train)
 ### Reshaping
 Adding dimensionality to the data structure. Reshaping into input shape required by the RNN in Keras.
 ```python
-# Reshaping
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
 ```
 
 ### Importing the Keras libraries and packages
 ```python
-# Importing the Keras libraries and packages
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
@@ -200,6 +198,7 @@ from keras.layers import Dropout
 ```
 
 ### Create the LSTM model
+
 
 ```python
 # Initialising the RNN
@@ -965,6 +964,11 @@ plt.show()
 
 ## 6) 20 Timestep, 2 layers
 
+
+## 7) Conclusion
+LSTM model are performing well and it might even be performing better than the traditional ARIMA model. The model with the timesteps of 60 and 1 layer seems to be having the best predictions against the actual stock prices. But in reality, stock prices are affected by many other factors.
+
+Adding some other indicators: if you have the financial instinct that the stock price of some other companies might be correlated to the one of Google, you could add this other stock price as a new indicator in the training data.
 
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/Google Stock Price/h.png" alt="">
