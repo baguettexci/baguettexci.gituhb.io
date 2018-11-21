@@ -16,7 +16,7 @@ Open and Close represent the starting and final price at which the stock is trad
 High and Low represent the maximum and minimum price of the share for the day.
 Adj Close, adjusted closing price is a stock's closing price on any given day of trading that has been amended to include any distributions and corporate actions that occurred at any time before the next day's open.
 Volume is the total number of buyers and sellers exchanging shares over a given period of time, in this case within the day.
-
+Volume is the number of shares or contracts traded in a security or an entire market during a given period of time.
 
 
 Predicting some the upward and downward trends
@@ -36,9 +36,9 @@ import matplotlib.pyplot as plt
 ### Load & Viewing the Data
 ```python
 # Importing the training set
-dataset_train = pd.read_csv('C:/Users/Weasel/Desktop/Google Stock Price/Train.csv')
+dataset_train = pd.read_csv('Google Stock Price Train.csv')
 # Getting the real stock price of aug 2018
-dataset_test = pd.read_csv('C:/Users/Weasel/Desktop/Google Stock Price/Test.csv')
+dataset_test = pd.read_csv('Google Stock Price Test.csv')
 
 dataset_train.head()
 ```
@@ -118,6 +118,8 @@ dataset_train.shape
 (2314, 7)
 {% endhighlight %} 
 
+### View the Google's stock price chart for training
+The training data is starts from the 22 May 2009 and end at 31 July 2018
 ```python
 #setting index as date
 dataset_train['Date'] = pd.to_datetime(dataset_train.Date,format='%Y-%m-%d')
@@ -132,6 +134,8 @@ plt.ylabel('Google Stock Price')
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Google Stock Price/stock.png" alt="">
 
+### View the Google's stock price chart for testing
+The testing data will be the whole financial month of August 2018. This will be the timestep?/ to be predicted.
 ```python
 #setting index as date
 dataset_test['Date'] = pd.to_datetime(dataset_test.Date,format='%Y-%m-%d')
@@ -154,16 +158,15 @@ Defining the target labels
 training_set = dataset_train.iloc[:, 1:2].values
 real_stock_price = dataset_test.iloc[:, 1:2].values
 ```
-
+### Feature Scaling
 ```python
-# Feature Scaling
 from sklearn.preprocessing import MinMaxScaler
 sc = MinMaxScaler(feature_range = (0, 1))
 training_set_scaled = sc.fit_transform(training_set)
 ```
 
+### Creating a data structure with 60 timesteps and 1 output
 ```python
-# Creating a data structure with 60 timesteps and 1 output
 X_train = []
 y_train = []
 for i in range(60, len(training_set)):
@@ -172,12 +175,13 @@ for i in range(60, len(training_set)):
 X_train, y_train = np.array(X_train), np.array(y_train)
 ```
 
-
+### Reshaping
 ```python
 # Reshaping
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
 ```
 
+### Importing the Keras libraries and packages
 ```python
 # Importing the Keras libraries and packages
 from keras.models import Sequential
@@ -186,6 +190,7 @@ from keras.layers import LSTM
 from keras.layers import Dropout
 ```
 
+### Create the LSTM model
 ```python
 # Initialising the RNN
 regressor = Sequential()
@@ -406,8 +411,8 @@ Epoch 100/100
 2254/2254 [==============================] - 11s 5ms/step - loss: 4.5311e-04
 {% endhighlight %} 
 
+### Getting the predicted stock price of Aug 2018
 ```python
-# Getting the predicted stock price of 2017
 dataset_total = pd.concat((dataset_train['Open'], dataset_test['Open']), axis = 0)
 inputs = dataset_total[len(dataset_total) - len(dataset_test) - 60:].values
 inputs = inputs.reshape(-1,1)
@@ -420,9 +425,8 @@ X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 predicted_stock_price = regressor.predict(X_test)
 predicted_stock_price = sc.inverse_transform(predicted_stock_price)
 ```
-
+### Visualising the results
 ```python
-# Visualising the results
 plt.figure(figsize=(12,8)) 
 plt.plot(real_stock_price, label = 'Real Google Stock Price')
 plt.plot(predicted_stock_price, color = 'orange', label = 'Predicted Google Stock Price')
