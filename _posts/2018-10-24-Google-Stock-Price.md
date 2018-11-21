@@ -10,6 +10,15 @@ excerpt: "Machine Learning, Data Science"
 mathjax: "true"
 ---
 
+Working with historical data to predict the future stock price of Google. This dataset is taken from Kaggle, [AMD and GOOGLE Stock Price](https://www.kaggle.com/gunhee/amdgoogle).
+
+Open and Close represent the starting and final price at which the stock is traded on a particular day.
+High and Low represent the maximum and minimum price of the share for the day.
+Adj Close, adjusted closing price is a stock's closing price on any given day of trading that has been amended to include any distributions and corporate actions that occurred at any time before the next day's open.
+Volume is the total number of buyers and sellers exchanging shares over a given period of time, in this case within the day.
+
+
+
 Predicting some the upward and downward trends
 Predicting the open google stock price, that is the stock price at the beginning of the financial day
 It performs well better than the traditional ARIMA model
