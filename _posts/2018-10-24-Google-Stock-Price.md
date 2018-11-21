@@ -12,19 +12,19 @@ mathjax: "true"
 
 Working with historical data to predict the future stock price of Google. This dataset is taken from Kaggle, [AMD and GOOGLE Stock Price](https://www.kaggle.com/gunhee/amdgoogle).
 
-Open and Close represent the starting and final price at which the stock is traded on a particular day.
-High and Low represent the maximum and minimum price of the share for the day.
-Adj Close, adjusted closing price is a stock's closing price on any given day of trading that has been amended to include any distributions and corporate actions that occurred at any time before the next day's open.
-Volume is the total number of buyers and sellers exchanging shares over a given period of time, in this case within the day.
-Volume is the number of shares or contracts traded in a security or an entire market during a given period of time.
+The variables in the dataset are:
+* Open and Close, represent the starting and final price at which the stock is traded on a particular day.
+* High and Low, represent the maximum and minimum price of the share for the day.
+* Adj Close, adjusted closing price is a stock's closing price on any given day of trading that has been amended to include any distributions and corporate actions that occurred at any time before the next day's open.
+* Volume, is the number of shares or contracts traded in a security or an entire market during a given period of time.
+
+We will be predicting the upward and downward trends of the open google stock price, that is the stock price at the beginning of the financial day. Noting that the market is closed on weekends and public holidays.
 
 
-Predicting some the upward and downward trends
-Predicting the open google stock price, that is the stock price at the beginning of the financial day
+
 It performs well better than the traditional ARIMA model
-
-
 Train the model to be able to predict the stock price at time t+1, based on the previous 60 stock prices 
+
 ## 1) Setup
 ### Load packages
 ```python
@@ -117,9 +117,10 @@ dataset_train.shape
 {% highlight text %}
 (2314, 7)
 {% endhighlight %} 
+We have 2314 records of financial data.
 
 ### View the Google's stock price chart for training
-The training data is starts from the 22 May 2009 and end at 31 July 2018
+The training data is starts from the 22 May 2009 and ends on 31 July 2018.
 ```python
 #setting index as date
 dataset_train['Date'] = pd.to_datetime(dataset_train.Date,format='%Y-%m-%d')
@@ -153,12 +154,18 @@ plt.ylabel('Google Stock Price')
 
 ## 3) Modeling
 ### Prepare dataset for training and testing
-Defining the target labels
+Defining the target labels, by extracting out all the records under the Open cloumn.
 ```python
 training_set = dataset_train.iloc[:, 1:2].values
 real_stock_price = dataset_test.iloc[:, 1:2].values
 ```
+
 ### Feature Scaling
+Normalisation feature scaling is recommended when building RNN. Using the MinMaxScaler function from the sklearn library to perform the normalisation.
+<br/>
+$${\text Normalization}= \frac{X - X_{\text min}}{X_{\text max} - X_{\text min}}$$
+<br/>
+Feature range is set to (0,1), because all the new scaled values will be between 0 and 1.
 ```python
 from sklearn.preprocessing import MinMaxScaler
 sc = MinMaxScaler(feature_range = (0, 1))
@@ -166,6 +173,7 @@ training_set_scaled = sc.fit_transform(training_set)
 ```
 
 ### Creating a data structure with 60 timesteps and 1 output
+Training the model to be able to predict the stock price at time t+1, based on the previous 60 stock prices.
 ```python
 X_train = []
 y_train = []
@@ -176,6 +184,7 @@ X_train, y_train = np.array(X_train), np.array(y_train)
 ```
 
 ### Reshaping
+Adding dimensionality to the data structure. Reshaping into input shape required by the RNN in Keras.
 ```python
 # Reshaping
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
@@ -191,6 +200,7 @@ from keras.layers import Dropout
 ```
 
 ### Create the LSTM model
+
 ```python
 # Initialising the RNN
 regressor = Sequential()
