@@ -21,7 +21,7 @@ The variables in the dataset are:
 We will be predicting the upward and downward trends of the open google stock price, that is the stock price at the beginning of the financial day. Noting that the market is closed on weekends and public holidays.
 
 
- dealing with a Regression problem because we predict a continuous outcome (the Google Stock Price).
+This is a Regression problem because we are predicting a continuous outcome (the Google Stock Price).
 It performs well better than the traditional ARIMA model
 Train the model to be able to predict the stock price at time t+1, based on the previous 60 stock prices 
 
