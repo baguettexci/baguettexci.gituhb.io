@@ -946,6 +946,7 @@ plt.show()
 ## 6) Conclusion
 LSTM model are performing well and it might even be performing better than the traditional ARIMA model. The model with the timesteps of 60 and 1 layer seems to be having the best predictions against the actual stock prices. In reality, stock prices are affected by many other factors that could even improve our model.
 <br/>
+
 One way of improving the model is to add some other indicators(having the financial instinct) that the stock price of some other companies might be correlated to the one of Google, you could add this other stock price as a new indicator in the training data.
 
 
