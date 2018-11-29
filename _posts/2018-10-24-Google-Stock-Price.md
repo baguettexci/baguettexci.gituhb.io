@@ -18,12 +18,7 @@ The variables in the dataset are:
 * Adj Close, adjusted closing price is a stock's closing price on any given day of trading that has been amended to include any distributions and corporate actions that occurred at any time before the next day's open.
 * Volume, is the number of shares or contracts traded in a security or an entire market during a given period of time.
 
-We will be predicting the upward and downward trends of the open google stock price, that is the stock price at the beginning of the financial day. Noting that the market is closed on weekends and public holidays.
-
-
-This is a Regression problem because we are predicting a continuous outcome (the Google Stock Price).
-It performs well better than the traditional ARIMA model
-Train the model to be able to predict the stock price at time t+1, based on the previous 60 stock prices 
+We will be predicting the upward and downward trends of the open google stock price, that is the stock price at the beginning of the financial day. Noting that the market is closed on weekends and public holidays. This is a Regression problem because we are predicting a continuous outcome (the Google Stock Price).
 
 ## 1) Setup
 ### Load packages
@@ -136,7 +131,7 @@ plt.ylabel('Google Stock Price')
 <img src="{{ site.url }}{{ site.baseurl }}/images/Google Stock Price/stock.png" alt="">
 
 ### View the Google's stock price chart for testing
-The testing data will be the whole financial month of August 2018. This will be the timestep?/ to be predicted.
+The testing data will be the whole financial month of August 2018. This will be the stock price to be predicted.
 ```python
 #setting index as date
 dataset_test['Date'] = pd.to_datetime(dataset_test.Date,format='%Y-%m-%d')
@@ -948,16 +943,12 @@ plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Google Stock Price/pred3.png" alt="">
 
-## 6) 20 Timestep, 2 layers
+## 6) Conclusion
+LSTM model are performing well and it might even be performing better than the traditional ARIMA model. The model with the timesteps of 60 and 1 layer seems to be having the best predictions against the actual stock prices. In reality, stock prices are affected by many other factors that could even improve our model.
+<br/>
+One way of improving the model is to add some other indicators(having the financial instinct) that the stock price of some other companies might be correlated to the one of Google, you could add this other stock price as a new indicator in the training data.
 
 
-## 7) Conclusion
-LSTM model are performing well and it might even be performing better than the traditional ARIMA model. The model with the timesteps of 60 and 1 layer seems to be having the best predictions against the actual stock prices. But in reality, stock prices are affected by many other factors.
-
-Adding some other indicators: if you have the financial instinct that the stock price of some other companies might be correlated to the one of Google, you could add this other stock price as a new indicator in the training data.
-
-
-<img src="{{ site.url }}{{ site.baseurl }}/images/Google Stock Price/h.png" alt="">
 ```python
 
 ```
