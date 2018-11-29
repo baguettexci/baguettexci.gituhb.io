@@ -154,7 +154,7 @@ plt.ylabel('Google Stock Price')
 
 ## 3) Modeling
 ### Prepare dataset for training and testing
-Defining the target labels, by extracting out all the records under the Open cloumn.
+Defining the target labels, by extracting out all the records under the Open column.
 ```python
 training_set = dataset_train.iloc[:, 1:2].values
 real_stock_price = dataset_test.iloc[:, 1:2].values
@@ -197,18 +197,17 @@ from keras.layers import LSTM
 from keras.layers import Dropout
 ```
 
-### Create the LSTM model
-
+### Creating the RNN model
+Initialising the RNN model with a sequence of LSTM layer of 50 neurons and input shape of X_train created in the reshaping step, followed by a dropout layer with dropout rate of 20% and a output dense layer with a single unit with no activation function.
+<br/>
+The model will be compiled with the Adam optimization metric and a mean squared error loss function, as this is a regression problem.
+For fitting the model, it will be trained for 100 epochs, in batch size of 32 (For every 32 stock prices, it will update the weights by forward propagation and then generating an error that is back propagated into the neural network).
 
 ```python
 # Initialising the RNN
 regressor = Sequential()
-
-# Adding the first LSTM layer and some Dropout regularisation
 regressor.add(LSTM(units = 50, input_shape = (X_train.shape[1], 1)))
 regressor.add(Dropout(0.2))
-
-# Adding the output layer
 regressor.add(Dense(units = 1))
 
 # Compiling the RNN
@@ -449,19 +448,14 @@ plt.show()
 
 
 ## 4) 60 Timestep, 2 layers
+Using the same settings, add a second LSTM layer and a second Dropout regularisation (return_sequences set to true as this is a stacked LSTM).
 ```python
 # Initialising the RNN
 regressor = Sequential()
-
-# Adding the first LSTM layer and some Dropout regularisation
 regressor.add(LSTM(units = 50, return_sequences = True, input_shape = (X_train.shape[1], 1)))
 regressor.add(Dropout(0.2))
-
-# Adding a fourth LSTM layer and some Dropout regularisation
 regressor.add(LSTM(units = 50))
 regressor.add(Dropout(0.2))
-
-# Adding the output layer
 regressor.add(Dense(units = 1))
 
 # Compiling the RNN
@@ -673,8 +667,8 @@ Epoch 100/100
 2254/2254 [==============================] - 24s 11ms/step - loss: 4.9874e-04
 {% endhighlight %} 
 
+### Getting the predicted stock price of Aug 2018
 ```python
-# Getting the predicted stock price of 2017
 dataset_total = pd.concat((dataset_train['Open'], dataset_test['Open']), axis = 0)
 inputs = dataset_total[len(dataset_total) - len(dataset_test) - 60:].values
 inputs = inputs.reshape(-1,1)
@@ -688,8 +682,8 @@ predicted_stock_price = regressor.predict(X_test)
 predicted_stock_price = sc.inverse_transform(predicted_stock_price)
 ```
 
+### Visualising the results
 ```python
-# Visualising the results
 plt.figure(figsize=(12,8)) 
 plt.plot(real_stock_price, label = 'Real Google Stock Price')
 plt.plot(predicted_stock_price, color = 'orange', label = 'Predicted Google Stock Price')
@@ -701,28 +695,20 @@ plt.show()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/Google Stock Price/pred2.png" alt="">
 
+
 ## 5) 60 Timestep, 4 layers
+This time add a third and fourth LSTM layer and Dropout regularisation, retaining the previous settings.
 ```python
 # Initialising the RNN
 regressor = Sequential()
-
-# Adding the first LSTM layer and some Dropout regularisation
 regressor.add(LSTM(units = 50, return_sequences = True, input_shape = (X_train.shape[1], 1)))
 regressor.add(Dropout(0.2))
-
-# Adding a second LSTM layer and some Dropout regularisation
 regressor.add(LSTM(units = 50, return_sequences = True))
 regressor.add(Dropout(0.2))
-
-# Adding a third LSTM layer and some Dropout regularisation
 regressor.add(LSTM(units = 50, return_sequences = True))
 regressor.add(Dropout(0.2))
-
-# Adding a fourth LSTM layer and some Dropout regularisation
 regressor.add(LSTM(units = 50))
 regressor.add(Dropout(0.2))
-
-# Adding the output layer
 regressor.add(Dense(units = 1))
 
 # Compiling the RNN
@@ -934,8 +920,8 @@ Epoch 100/100
 2254/2254 [==============================] - 49s 22ms/step - loss: 6.6635e-04
 {% endhighlight %} 
 
+### Getting the predicted stock price of Aug 2018
 ```python
-# Getting the predicted stock price of 2017
 dataset_total = pd.concat((dataset_train['Open'], dataset_test['Open']), axis = 0)
 inputs = dataset_total[len(dataset_total) - len(dataset_test) - 60:].values
 inputs = inputs.reshape(-1,1)
@@ -949,8 +935,8 @@ predicted_stock_price = regressor.predict(X_test)
 predicted_stock_price = sc.inverse_transform(predicted_stock_price)
 ```
 
+### Visualising the results
 ```python
-# Visualising the results
 plt.figure(figsize=(12,8)) 
 plt.plot(real_stock_price, label = 'Real Google Stock Price')
 plt.plot(predicted_stock_price, color = 'orange', label = 'Predicted Google Stock Price')
