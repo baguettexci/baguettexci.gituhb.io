@@ -195,6 +195,7 @@ from keras.layers import Dropout
 ### Creating the RNN model
 Initialising the RNN model with a sequence of LSTM layer of 50 neurons and input shape of X_train created in the reshaping step, followed by a dropout layer with dropout rate of 20% and a output dense layer with a single unit with no activation function.
 <br/>
+
 The model will be compiled with the Adam optimization metric and a mean squared error loss function, as this is a regression problem.
 For fitting the model, it will be trained for 100 epochs, in batch size of 32 (For every 32 stock prices, it will update the weights by forward propagation and then generating an error that is back propagated into the neural network).
 
