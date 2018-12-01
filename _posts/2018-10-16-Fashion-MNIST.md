@@ -2,11 +2,11 @@
 title: Fashion MNIST
 date: 2018-10-16
 tags: 
-  - machine learning
-  - data science
+  - Neural Network
+  - Classification
 header:
   image: ""
-excerpt: "Machine Learning, Data Science"
+excerpt: "Neural Network, Classification"
 mathjax: "true"
 ---
 Fashion-MNIST is a dataset of Zalando's article images consisting of 70,000 images divided into 60,000 training and 10,000 testing samples.
