@@ -5,7 +5,7 @@ tags:
   - Neural Network
   - Regression
 header:
-  image: ""
+  image: "/images/chart.jpg"
 excerpt: "Neural Network, Regression"
 mathjax: "true"
 ---
