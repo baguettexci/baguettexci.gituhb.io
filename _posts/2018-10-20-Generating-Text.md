@@ -1,5 +1,5 @@
 ---
-title: Generating Text
+title: Generating Text with RNN Long Short-Term Memory
 date: 2018-10-20
 tags: 
   - Neural Network
