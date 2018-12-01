@@ -2,11 +2,11 @@
 title: Generating Text
 date: 2018-10-20
 tags: 
-  - machine learning
-  - data science
+  - Neural Network
+  - Text Analytics
 header:
   image: ""
-excerpt: "Machine Learning, Data Science"
+excerpt: "Neural Network, Text Analytics"
 ---
 
 The aim is to develop a model generating text, character by character using LSTM recurrent neural networks with Keras. 
