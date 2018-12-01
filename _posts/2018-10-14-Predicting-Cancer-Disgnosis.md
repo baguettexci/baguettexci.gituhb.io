@@ -2,10 +2,11 @@
 title: Predicting Cancer Disgnosis
 date: 2018-10-14
 tags: 
+  - Machine Learning
   - Classification
 header:
   image: ""
-excerpt: "Classification"
+excerpt: "Machine Learning, Classification"
 ---
 
 The aim is to predict if the cancer diagnosis is benign or malignant based on several observations/features.
