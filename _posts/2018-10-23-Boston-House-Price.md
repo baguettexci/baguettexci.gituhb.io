@@ -1,5 +1,5 @@
 ---
-title: Boston House Price
+title: Predicting Boston House Pricing
 date: 2018-10-23
 tags: 
   - Machine Learning
