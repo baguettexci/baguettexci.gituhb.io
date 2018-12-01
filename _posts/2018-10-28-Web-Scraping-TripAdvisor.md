@@ -1,6 +1,6 @@
 ---
 title: Web Scraping TripAdvisor and Text Mining
-date: 2018-10-23
+date: 2018-10-28
 tags: 
   - Web Scraping
   - Text Analytics
