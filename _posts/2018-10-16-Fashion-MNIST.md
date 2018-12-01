@@ -1,5 +1,5 @@
 ---
-title: Fashion MNIST
+title: Multiclass Classification with Fashion MNIST
 date: 2018-10-16
 tags: 
   - Neural Network
