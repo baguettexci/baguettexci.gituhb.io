@@ -1,12 +1,13 @@
 ---
 title: Boston House Price
-date: 2018-10-22
+date: 2018-10-20
 tags: 
-  - machine learning
-  - data science
+  - Machine Learning
+  - Neural Network
+  - Regression
 header:
   image: ""
-excerpt: "Machine Learning, Data Science"
+excerpt: "Machine Learning, Neural Network, Regression"
 mathjax: "true"
 ---
 
