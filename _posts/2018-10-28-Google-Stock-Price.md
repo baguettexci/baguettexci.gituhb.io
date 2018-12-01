@@ -1,12 +1,12 @@
 ---
 title: Predicting Google Stock Price
-date: 2018-10-24
+date: 2018-10-28
 tags: 
-  - machine learning
-  - data science
+  - Neural Network
+  - Regression
 header:
   image: ""
-excerpt: "Machine Learning, Data Science"
+excerpt: "Neural Network, Regression"
 mathjax: "true"
 ---
 
