@@ -1,5 +1,5 @@
 ---
-title: Predicting Google Stock Price
+title: Predicting Google Stock Pricing With Historical Data
 date: 2018-11-02
 tags: 
   - Neural Network
