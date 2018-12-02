@@ -622,12 +622,3 @@ plt.tight_layout()
 ```
 <img src="{{ site.url }}{{ site.baseurl }}/images/WebScrapingTripAdvisor/chart.png" alt="">
 
-
-
-
-```python
-
-```
-{% highlight text %}
-
-{% endhighlight %} 
