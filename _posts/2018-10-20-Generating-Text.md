@@ -679,9 +679,3 @@ With a sufficiently trained model, we could generate realistic text that are mor
 
 To further improve the model, we could try tuning the model, such as the number of epochs, memory units, batch size or even the dropout percentage to see if we can develop a better model. We could also explore developing a word-based language model rather than a character-based model.
 
-```python
-
-```
-{% highlight text %}
-
-{% endhighlight %} 
