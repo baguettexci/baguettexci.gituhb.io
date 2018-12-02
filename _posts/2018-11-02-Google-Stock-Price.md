@@ -951,10 +951,3 @@ LSTM model are performing well and it might even be performing better than the t
 
 One way of improving the model is to add some other indicators(having the financial instinct) that the stock price of some other companies might be correlated to the one of Google, you could add this other stock price as a new indicator in the training data.
 
-
-```python
-
-```
-{% highlight text %}
-
-{% endhighlight %} 
