@@ -2796,12 +2796,3 @@ print("2) R squared: {0:.4f}\n".format(r2_score(Y_validation, predictions)))
 The results shows that the estimated mean squared error is 9.27, which is quite close to the tuned model. The R squared value indicates a high goodness of fit.
 
 
-
-
-```python
-
-```
-{% highlight text %}
-
-{% endhighlight %} 
-
