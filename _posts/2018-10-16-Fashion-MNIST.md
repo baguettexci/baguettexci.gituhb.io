@@ -5,7 +5,8 @@ tags:
   - Neural Network
   - Classification
 header:
-  image: ""
+  image: "/images/Fashion mnist/fashion.jpg"
+  teaser: "/images/Fashion mnist/fashion.jpg"
 excerpt: "Neural Network, Classification"
 mathjax: "true"
 ---
