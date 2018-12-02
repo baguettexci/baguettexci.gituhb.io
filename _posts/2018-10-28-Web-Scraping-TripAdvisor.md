@@ -5,7 +5,8 @@ tags:
   - Web Scraping
   - Text Analytics
 header:
-  image: ""
+  image: "/images/WebScrapingTripAdvisor/mbs.jpg"
+  teaser: "/images/WebScrapingTripAdvisor/mbs.jpg"
 excerpt: "Web Scraping, Text Analytics"
 mathjax: "true"
 ---
