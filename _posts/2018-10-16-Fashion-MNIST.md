@@ -1063,11 +1063,4 @@ print(classification_report(y_test, predicted_classes, target_names = target_nam
 avg / total       0.93      0.93      0.93     10000
 {% endhighlight %}
 
-Class 6 had the lowest f1 score, which is the harmonic average of the precision and recall.
-
-```python
-
-```
-{% highlight text %}
-
-{% endhighlight %}
+Overall, Class 6 had the lowest f1 score, which is the harmonic average of the precision and recall.
