@@ -6,7 +6,8 @@ tags:
   - Neural Network
   - Regression
 header:
-  image: ""
+  image: "/images/Boston House Price/boston.jpg"
+  teaser: "/images/Boston House Price/boston.jpg"
 excerpt: "Machine Learning, Neural Network, Regression"
 mathjax: "true"
 ---
