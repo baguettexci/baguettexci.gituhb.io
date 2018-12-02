@@ -1,11 +1,12 @@
 ---
-title: Predicting Cancer Disgnosis
+title: Predicting Cancer Diagnosis
 date: 2018-10-14
 tags: 
   - Machine Learning
   - Classification
 header:
-  image: ""
+  image: "/images/project/diagnosis.jpg"
+  teaser: "/images/project/diagnosis.jpg"
 excerpt: "Machine Learning, Classification"
 ---
 
