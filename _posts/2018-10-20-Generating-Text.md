@@ -5,8 +5,8 @@ tags:
   - Neural Network
   - Text Analytics
 header:
-  image: "/images/Generating Text/book.png"
-  teaser: "/images/Generating Text/book.png"
+  image: "/images/Generating Text/book.jpg"
+  teaser: "/images/Generating Text/book.jpg"
 excerpt: "Neural Network, Text Analytics"
 ---
 
