@@ -278,7 +278,7 @@ defaults:
   # _posts
   - scope:
       path: ""
-      type: posts
+      type: grid
     values:
       layout: single
       author_profile: true
